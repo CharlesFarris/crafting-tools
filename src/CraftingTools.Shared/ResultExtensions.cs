@@ -22,7 +22,10 @@ public static class ResultExtensions
     /// using the supplied predicate.
     /// </summary>
     [NotNull]
-    public static Result<TValue> Check<TValue>(this Result<TValue> result, Func<TValue, bool> predicate)
+    public static Result<TValue> Check<TValue>(
+        [NotNull] this Result<TValue> result, 
+        [NotNull] Func<TValue, bool> predicate, 
+        [CanBeNull] string failureMessage)
     {
         if (result is null)
         {

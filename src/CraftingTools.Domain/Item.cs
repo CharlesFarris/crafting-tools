@@ -26,7 +26,7 @@ public sealed class Item
         var failures = ImmutableList<ResultBase>.Empty;
 
         var validId = id.ToResult()
-            .Check(value => value != Guid.Empty)
+            .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         if (!failures.IsEmpty)

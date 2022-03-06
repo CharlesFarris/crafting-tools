@@ -1,6 +1,5 @@
 ﻿using System.Collections.Immutable;
 using CraftingTools.Shared;
-using JetBrains.Annotations;
 
 namespace CraftingTools.Domain;
 
@@ -20,22 +19,17 @@ public sealed class Item
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    [NotNull]
-    public static Result<Item> FromParameters(Guid id)
+    public static RailwayResult<Item> FromParameters(Guid id)
     {
-        var failures = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<RailwayResultBase>.Empty;
 
         var validId = id.ToResult()
             .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        if (!failures.IsEmpty)
-        {
-            return Result<Item>.Failure();
-        }
-
-        var item = new Item(validId);
-        return Result<Item>.Success(item);
+        return failures.IsEmpty 
+            ? RailwayResult<Item>.Success(new Item(validId)) 
+            : RailwayResult<Item>.Failure(failures.ToError(message: "Unable to create item."));
     }
 
     /// <summary>

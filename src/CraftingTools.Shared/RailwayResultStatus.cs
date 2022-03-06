@@ -1,6 +1,6 @@
 ﻿namespace CraftingTools.Shared;
 
-public enum ResultStatus
+public enum RailwayResultStatus
 {
     Unknown = 0,
     Success = 1,

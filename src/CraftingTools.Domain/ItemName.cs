@@ -1,12 +1,11 @@
 ﻿using System.Collections.Immutable;
 using CraftingTools.Shared;
-using JetBrains.Annotations;
 
 namespace CraftingTools.Domain;
 
 public sealed class ItemName : ValueObject
 {
-    private ItemName([NotNull] string value)
+    private ItemName(string value)
     {
         this.Value = value;
     }
@@ -15,19 +14,19 @@ public sealed class ItemName : ValueObject
         yield return Value;
     }
     
-    [NotNull] public string Value { get; }
+    public string Value { get; }
 
-    public static Result<ItemName> FromParameter([CanBeNull] string value)
+    public static RailwayResult<ItemName> FromParameter(string? value)
     {
-        var errors = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<RailwayResultBase>.Empty;
 
         var validValue = value
-            .ToResult()
-            .Check(v => !string.IsNullOrWhiteSpace(v), "Value cannot be null, empty or whitespace.")
-            .UnwrapOrAddToFailuresImmutable(ref errors);
+            .ToResultIsNotNullOrWhitespace(failureMessage: "Value cannot be null, empty or whitespace.")
+            .Check(v => v.Length <= 128, failureMessage: "Item name cannot exceed 128 characters in length.")
+            .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        return errors.IsEmpty
-            ? Result<ItemName>.Success(new ItemName(validValue))
-            : Result<ItemName>.Failure();
+        return failures.IsEmpty
+            ? RailwayResult<ItemName>.Success(new ItemName(validValue))
+            : RailwayResult<ItemName>.Failure(failures.ToError(message: "Unable to construct item name."));
     }
 }

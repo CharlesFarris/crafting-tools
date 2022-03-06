@@ -4,9 +4,9 @@ using NUnit.Framework;
 namespace CraftingTools.Shared.Test;
 
 /// <summary>
-/// Tests for <see cref="ResultBase"/> class.
+/// Tests for <see cref="RailwayResultBase"/> class.
 /// </summary>
-internal static class ResultBaseTests
+internal static class RailwayResultBaseTests
 {
     /// <summary>
     /// Validates the behavior of the constructor.
@@ -18,15 +18,16 @@ internal static class ResultBaseTests
         {
             var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                var _ = new MockResult(ResultStatus.Unknown);
+                var _ = new MockRailwayResult(RailwayResultStatus.Unknown, Error.Empty);
             });
             Assert.That(ex?.ParamName, Is.EqualTo("status"));
         }
         
         // use case: set valid status
         {
-            var result = new MockResult(ResultStatus.Success);
-            Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
+            var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Error, Is.EqualTo(Error.Empty));
         }
     }
 
@@ -38,13 +39,13 @@ internal static class ResultBaseTests
     {
         // use case: verify failure behavior
         {
-            var result = new MockResult(ResultStatus.Failure);
+            var result = new MockRailwayResult(RailwayResultStatus.Failure, Error.Empty);
             Assert.That(result.IsSuccess, Is.False);
         }
         
         // use case: verify success behavior
         {
-            var result = new MockResult(ResultStatus.Success);
+            var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty);
             Assert.That(result.IsSuccess, Is.True);
         }
     }
@@ -57,27 +58,27 @@ internal static class ResultBaseTests
     {
         // use case: verify failure behavior
         {
-            var result = new MockResult(ResultStatus.Failure);
+            var result = new MockRailwayResult(RailwayResultStatus.Failure, Error.Empty);
             Assert.That(result.IsFailure, Is.True);
         }
         
         // use case: verify success behavior
         {
-            var result = new MockResult(ResultStatus.Success);
+            var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty);
             Assert.That(result.IsFailure, Is.False);
         }
     }
 
     /// <summary>
-    /// Mock concrete implementation of <see cref="ResultBase"/>.
+    /// Mock concrete implementation of <see cref="RailwayResultBase"/>.
     /// </summary>
-    private class MockResult : ResultBase
+    private class MockRailwayResult : RailwayResultBase
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public MockResult(ResultStatus status)
-            : base(status)
+        public MockRailwayResult(RailwayResultStatus status, Error error)
+            : base(status, error)
         {
         }
     }

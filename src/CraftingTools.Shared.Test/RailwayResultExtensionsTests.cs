@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
 
 namespace CraftingTools.Shared.Test;
@@ -136,6 +138,51 @@ internal static class RailwayResultExtensionsTests
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
             Assert.That(result.Unwrap(), Is.EqualTo(value));
             Assert.That(result.Id, Is.EqualTo("id"));
+        }
+    }
+    
+    /// <summary>
+    /// Validates the behavior of the <c>UnwrapOrAddToFailuresImmutable</c> method.
+    /// </summary>
+    [Test]
+    public static void UnwrapOrAddToFailuresImmutable_ValidatesBehavior()
+    {
+        // use case: null result
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                var failures = ImmutableList<RailwayResultBase>.Empty;
+                var _ = default(RailwayResult<object>)!.UnwrapOrAddToFailuresImmutable(ref failures);
+            });
+            Assert.That(ex!.ParamName, Is.EqualTo("result"));
+        }
+        
+        // use case: null failures collection
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                var failures = default(ImmutableList<RailwayResultBase>);
+                var _ = RailwayResult<object>.Success(new object()).UnwrapOrAddToFailuresImmutable(ref failures!);
+            });
+            Assert.That(ex!.ParamName, Is.EqualTo("failures"));
+        }
+        
+        // use case: success result
+        {
+            var value = new object();
+            var failures = ImmutableList<RailwayResultBase>.Empty;
+            var unwrapped = value.ToResult().UnwrapOrAddToFailuresImmutable(ref failures);
+            Assert.That(unwrapped, Is.EqualTo(value));
+        }
+        
+        // use case: failure result
+        {
+            var failures = ImmutableList<RailwayResultBase>.Empty;
+            var inResult = RailwayResult<object>.Failure(Error.Empty);
+            var unwrapped = inResult.UnwrapOrAddToFailuresImmutable(ref failures);
+            Assert.That(unwrapped, Is.Null);
+            Assert.That(failures.Count, Is.EqualTo(1));
+            Assert.That(failures[0], Is.EqualTo(inResult));
         }
     }
 }

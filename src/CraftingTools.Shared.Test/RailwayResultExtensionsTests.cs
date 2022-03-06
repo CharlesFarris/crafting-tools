@@ -185,4 +185,64 @@ internal static class RailwayResultExtensionsTests
             Assert.That(failures[0], Is.EqualTo(inResult));
         }
     }
+
+    /// <summary>
+    /// Validates the behavior of the <c>As()</c> method for decimal values.
+    /// </summary>
+    [Test]
+    public static void As_Decimal_ValidatesBehavior()
+    {
+        // use case: null value
+        {
+            var result = default(object).As<decimal>(id: "id");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Unwrap(), Is.EqualTo(0M));
+            Assert.That(result.Id, Is.EqualTo("id"));
+        }
+        
+        // use case: valid string value
+        {
+            var result = "12.34".As<decimal>(id: "id");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Unwrap(), Is.EqualTo(12.34M));
+            Assert.That(result.Id, Is.EqualTo("id"));
+        }
+        
+        // use case: invalid string value
+        {
+            var result = "abc".As<decimal>(id: "id");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
+            Assert.That(result.Error.Message, Is.EqualTo("Unable to parse decimal."));
+        }
+
+        // use case: valid decimal value
+        {
+            var result = 12.34M.As<decimal>(id: "id");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Unwrap(), Is.EqualTo(12.34M));
+            Assert.That(result.Id, Is.EqualTo("id"));
+        }
+
+        // use case: valid integer value
+        {
+            var result = 1234.As<decimal>(id: "id");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Unwrap(), Is.EqualTo(1234M));
+            Assert.That(result.Id, Is.EqualTo("id"));
+        }
+
+        // use case: invalid value type
+        {
+            var result = new Exception().As<decimal>(id: "id");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
+            Assert.That(result.Error.Message, Is.EqualTo("Unable to convert to decimal."));
+        }
+
+    }
 }

@@ -2,8 +2,15 @@
 
 namespace CraftingTools.Shared;
 
+/// <summary>
+/// Custom exception used to consolidate multiple railway
+/// result failures.
+/// </summary>
 public sealed class RailwayResultFailureException : Exception
 {
+    /// <summary>
+    /// Constructor.
+    /// </summary>
     public RailwayResultFailureException(
         string? message, 
         ImmutableList<RailwayResultBase>? failures)

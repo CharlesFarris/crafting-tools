@@ -9,5 +9,5 @@ public static class StringExtensions
     /// Checks if the supplied string is null and returns the
     /// empty string if so.
     /// </summary>
-    public static string ToSafeString(this string? value) => value ?? string.Empty;
+    public static string ToSafeString(this object? value) => (value is null ? string.Empty : value.ToString())!;
 }

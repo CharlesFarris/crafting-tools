@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace CraftingTools.Shared;
 
@@ -20,7 +21,7 @@ public static class RailwayResultExtensions
     /// it is not null or empty.
     /// </summary>
     public static RailwayResult<string> ToResultIsNotNullOrEmpty(
-        this string? value, 
+        this string? value,
         string? failureMessage = default,
         string? id = default)
     {
@@ -34,7 +35,7 @@ public static class RailwayResultExtensions
     /// it is not null, empty, or whitespace.
     /// </summary>
     public static RailwayResult<string> ToResultIsNotNullOrWhitespace(
-        this string? value, 
+        this string? value,
         string? failureMessage = default,
         string? id = default)
     {
@@ -53,8 +54,8 @@ public static class RailwayResultExtensions
         string? id = default)
         where TValue : class
     {
-        return value is null 
-            ? RailwayResult<TValue>.Failure(failureMessage.ToError(), id) 
+        return value is null
+            ? RailwayResult<TValue>.Failure(failureMessage.ToError(), id)
             : RailwayResult<TValue>.Success(value, id);
     }
 
@@ -83,11 +84,11 @@ public static class RailwayResultExtensions
             return inResult;
         }
 
-        return predicate.Invoke(inResult.Unwrap()) 
-            ? inResult 
+        return predicate.Invoke(inResult.Unwrap())
+            ? inResult
             : RailwayResult<TValue>.Failure(failureMessage.ToError(), id ?? inResult.Id);
     }
-    
+
     /// <summary>
     /// Unwraps the value of the <see cref="RailwayResult{TValue}"/> instance
     /// or adds the failure to the immutable list.
@@ -113,5 +114,70 @@ public static class RailwayResultExtensions
 
         failures = failures.Add(result);
         return default!; // suppress nullable warning
+    }
+
+    /// <summary>
+    /// Attempts to convert a value to the specified type and
+    /// returns a railway result indicating a successful conversion.
+    /// </summary>
+    /// <remarks>
+    /// Null values are converted to the specified type's default value.
+    /// </remarks>
+    public static RailwayResult<TOutput> As<TOutput>(this object? value, string? id = default)
+    {
+        var outputType = typeof(TOutput);
+        if (outputType == typeof(string))
+        {
+            return (RailwayResultExtensions.AsString(value, id) as RailwayResult<TOutput>)!;
+        }
+
+        if (outputType == typeof(Guid))
+        {
+            return (RailwayResultExtensions.AsGuid(value, id) as RailwayResult<TOutput>)!;
+        }
+
+        if (outputType == typeof(decimal))
+        {
+            return (RailwayResultExtensions.AsDecimal(value, id) as RailwayResult<TOutput>)!;
+        }
+
+        return RailwayResult<TOutput>.Failure($"Conversion to {outputType.Name} is not implemented.".ToError());
+    }
+
+    private static RailwayResult<string> AsString(object? value, string? id)
+    {
+        return value switch
+        {
+            null => RailwayResult<string>.Success(value: string.Empty, id),
+            string stringValue => RailwayResult<string>.Success(stringValue, id),
+            _ => RailwayResult<string>.Success(value.ToSafeString(), id)
+        };
+    }
+
+    private static RailwayResult<Guid> AsGuid(object? value, string? id)
+    {
+        return value switch
+        {
+            null => RailwayResult<Guid>.Success(Guid.Empty, id),
+            Guid guidValue => RailwayResult<Guid>.Success(guidValue, id),
+            string stringValue when Guid.TryParse(stringValue, out var parsed) => RailwayResult<Guid>.Success(parsed,
+                id),
+            string => RailwayResult<Guid>.Failure("Unable to parse Guid.".ToError(), id),
+            _ => RailwayResult<Guid>.Failure("Unable to convert value to Guid.".ToError(), id)
+        };
+    }
+
+    private static RailwayResult<decimal> AsDecimal(object? value, string? id)
+    {
+        return value switch
+        {
+            null => RailwayResult<decimal>.Success(0M, id),
+            decimal decimalValue => RailwayResult<decimal>.Success(decimalValue, id),
+            int intValue => RailwayResult<decimal>.Success(intValue, id),
+            string stringValue when decimal.TryParse(stringValue, out var parsed) => RailwayResult<decimal>.Success(
+                parsed, id),
+            string => RailwayResult<decimal>.Failure("Unable to parse decimal.".ToError(), id),
+            _ => RailwayResult<decimal>.Failure("Unable to convert to decimal.".ToError(),id)
+        };
     }
 }

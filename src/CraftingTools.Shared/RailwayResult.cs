@@ -12,8 +12,9 @@ public class RailwayResult<TValue> : RailwayResultBase
     private RailwayResult(
         RailwayResultStatus status,
         Error error,
+        string? id,
         TValue? value)
-        : base(status, error)
+        : base(status, error, id)
     {
         this.Value = value;
     }
@@ -30,17 +31,17 @@ public class RailwayResult<TValue> : RailwayResultBase
     /// <summary>
     /// Create an <see cref="RailwayResult{TValue}"/> instance for success.
     /// </summary>
-    public static RailwayResult<TValue> Success(TValue value)
+    public static RailwayResult<TValue> Success(TValue value, string? id = default)
     {
-        return new RailwayResult<TValue>(RailwayResultStatus.Success, Error.Empty, value);
+        return new RailwayResult<TValue>(RailwayResultStatus.Success, Error.Empty, id, value);
     }
 
     /// <summary>
     /// Creates a <see cref="RailwayResult{TValue}"/> instance for failure.
     /// </summary>
-    public static RailwayResult<TValue> Failure(Error error)
+    public static RailwayResult<TValue> Failure(Error error, string? id = default)
     {
-        return new RailwayResult<TValue>(RailwayResultStatus.Failure, error, value: default);
+        return new RailwayResult<TValue>(RailwayResultStatus.Failure, error, id, value: default);
     }
 
     /// <summary>

@@ -10,9 +10,9 @@ public static class RailwayResultExtensions
     /// <summary>
     /// Wraps the supplied value in a success result.
     /// </summary>
-    public static RailwayResult<TValue> ToResult<TValue>(this TValue value)
+    public static RailwayResult<TValue> ToResult<TValue>(this TValue value, string? id = default)
     {
-        return RailwayResult<TValue>.Success(value);
+        return RailwayResult<TValue>.Success(value, id);
     }
 
     /// <summary>
@@ -21,11 +21,12 @@ public static class RailwayResultExtensions
     /// </summary>
     public static RailwayResult<string> ToResultIsNotNullOrEmpty(
         this string? value, 
-        string? failureMessage = default)
+        string? failureMessage = default,
+        string? id = default)
     {
         return string.IsNullOrEmpty(value)
-            ? RailwayResult<string>.Failure(failureMessage.ToError())
-            : RailwayResult<string>.Success(value);
+            ? RailwayResult<string>.Failure(failureMessage.ToError(), id)
+            : RailwayResult<string>.Success(value, id);
     }
 
     /// <summary>
@@ -34,25 +35,27 @@ public static class RailwayResultExtensions
     /// </summary>
     public static RailwayResult<string> ToResultIsNotNullOrWhitespace(
         this string? value, 
-        string? failureMessage = default)
+        string? failureMessage = default,
+        string? id = default)
     {
         return string.IsNullOrWhiteSpace(value)
-            ? RailwayResult<string>.Failure(failureMessage.ToError())
-            : RailwayResult<string>.Success(value);
+            ? RailwayResult<string>.Failure(failureMessage.ToError(), id)
+            : RailwayResult<string>.Success(value, id);
     }
 
     /// <summary>
     /// Wraps the supplied reference type instance in a success result if
     /// it is not null.
     /// </summary>
-    public static RailwayResult<TValue> ToResultNotNull<TValue>(
+    public static RailwayResult<TValue> ToResultIsNotNull<TValue>(
         this TValue? value,
-        string? failureMessage = default)
+        string? failureMessage = default,
+        string? id = default)
         where TValue : class
     {
         return value is null 
-            ? RailwayResult<TValue>.Failure(failureMessage.ToError()) 
-            : RailwayResult<TValue>.Success(value);
+            ? RailwayResult<TValue>.Failure(failureMessage.ToError(), id) 
+            : RailwayResult<TValue>.Success(value, id);
     }
 
     /// <summary>
@@ -60,13 +63,14 @@ public static class RailwayResultExtensions
     /// using the supplied predicate.
     /// </summary>
     public static RailwayResult<TValue> Check<TValue>(
-        this RailwayResult<TValue> railwayResult,
+        this RailwayResult<TValue> inResult,
         Func<TValue, bool> predicate,
-        string? failureMessage)
+        string? failureMessage,
+        string? id = default)
     {
-        if (railwayResult is null)
+        if (inResult is null)
         {
-            throw new ArgumentNullException(nameof(railwayResult));
+            throw new ArgumentNullException(nameof(inResult));
         }
 
         if (predicate is null)
@@ -74,53 +78,27 @@ public static class RailwayResultExtensions
             throw new ArgumentNullException(nameof(predicate));
         }
 
-        if (railwayResult.IsFailure)
+        if (inResult.IsFailure)
         {
-            return railwayResult;
+            return inResult;
         }
 
-        return predicate.Invoke(railwayResult.Unwrap()) 
-            ? railwayResult 
-            : RailwayResult<TValue>.Failure(failureMessage.ToError());
+        return predicate.Invoke(inResult.Unwrap()) 
+            ? inResult 
+            : RailwayResult<TValue>.Failure(failureMessage.ToError(), id ?? inResult.Id);
     }
-
-    /// <summary>
-    /// Unwraps the value of the <see cref="RailwayResult{TValue}"/> instance
-    /// or adds the failure result to the list.
-    /// </summary>
-    public static TValue? UnwrapOrAddToFailures<TValue>(
-        this RailwayResult<TValue> railwayResult,
-        List<RailwayResultBase> failures)
-    {
-        if (railwayResult is null)
-        {
-            throw new ArgumentNullException(nameof(railwayResult));
-        }
-
-        if (failures is null)
-        {
-            throw new ArgumentNullException(nameof(failures));
-        }
-
-        if (railwayResult.Status == RailwayResultStatus.Success)
-        {
-            return railwayResult.Unwrap();
-        }
-
-        failures.Add(railwayResult);
-        return default;
-    }
-
+    
     /// <summary>
     /// Unwraps the value of the <see cref="RailwayResult{TValue}"/> instance
     /// or adds the failure to the immutable list.
     /// </summary>
-    public static TValue UnwrapOrAddToFailuresImmutable<TValue>(this RailwayResult<TValue> railwayResult,
+    public static TValue UnwrapOrAddToFailuresImmutable<TValue>(
+        this RailwayResult<TValue> result,
         ref ImmutableList<RailwayResultBase> failures)
     {
-        if (railwayResult is null)
+        if (result is null)
         {
-            throw new ArgumentNullException(nameof(railwayResult));
+            throw new ArgumentNullException(nameof(result));
         }
 
         if (failures is null)
@@ -128,12 +106,12 @@ public static class RailwayResultExtensions
             throw new ArgumentNullException(nameof(failures));
         }
 
-        if (railwayResult.Status == RailwayResultStatus.Success)
+        if (result.Status == RailwayResultStatus.Success)
         {
-            return railwayResult.Unwrap();
+            return result.Unwrap();
         }
 
-        failures = failures.Add(railwayResult);
+        failures = failures.Add(result);
         return default!; // suppress nullable warning
     }
 }

@@ -9,10 +9,11 @@ public abstract class RailwayResultBase
     /// Constructor
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if the status parameter is <c>Unknown</c>.</exception>
-    protected RailwayResultBase(RailwayResultStatus status, Error error)
+    protected RailwayResultBase(RailwayResultStatus status, Error error, string? id)
     {
         this.Status = status == RailwayResultStatus.Unknown ? throw new ArgumentOutOfRangeException(nameof(status)) : status;
         this.Error = error;
+        this.Id = id.ToSafeString().Trim();
     }
     
     /// <summary>
@@ -34,4 +35,9 @@ public abstract class RailwayResultBase
     /// Gets the error instance.
     /// </summary>
     public Error Error { get; }
+    
+    /// <summary>
+    /// Get the ID.
+    /// </summary>
+    public string Id { get; }
 }

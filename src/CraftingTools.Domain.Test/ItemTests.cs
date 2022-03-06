@@ -20,19 +20,23 @@ internal static class ItemTests
         // use case: valid construction
         {
             var id = new Guid(g: "5E226140-DF07-47A8-B290-21F5B7E581B6");
-            var result = Item.FromParameters(id);
+            var result = Item.FromParameters(id, "name", resultId: "resultId");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Id, Is.EqualTo("resultId"));
             var item = result.Unwrap();
             Assert.That(item.Id, Is.EqualTo(id));
+            Assert.That(item.Name.Value, Is.EqualTo("name"));
+            
         }
         
         // use case: invalid ID
         {
-            var result = Item.FromParameters(Guid.Empty);
+            var result = Item.FromParameters(Guid.Empty, "name", "resultId");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
-            Assert.That(result.Error.Message, Is.EqualTo(""));
+            Assert.That(result.Error.Message, Is.EqualTo("Unable to create item."));
+            Assert.That(result.Id, Is.EqualTo("resultId"));
         }
     }
 }

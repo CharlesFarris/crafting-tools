@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Text;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace CraftingTools.Shared.Test;
 
@@ -67,7 +65,7 @@ internal static class RailwayResultExtensionsTests
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = default(RailwayResult<object>)!.Check(v => false, failureMessage: "message");
+                var _ = default(RailwayResult<object>)!.Check(_ => false, failureMessage: "message");
             });
             Assert.That(ex!.ParamName, Is.EqualTo("inResult"));
         }

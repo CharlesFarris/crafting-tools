@@ -20,7 +20,7 @@ public sealed class Item
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static RailwayResult<Item> FromParameters(Guid id, string? name, string? resultId)
+    public static RailwayResult<Item> FromParameters(Guid id, ItemName itemName, string? resultId)
     {
         var failures = ImmutableList<RailwayResultBase>.Empty;
 
@@ -29,12 +29,12 @@ public sealed class Item
             .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        var itemName = ItemName
-            .FromParameter(name, nameof(name))
+        var validItemName = itemName
+            .ToResultIsNotNull("Item name cannot be null.", nameof(itemName))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        return failures.IsEmpty 
-            ? RailwayResult<Item>.Success(new Item(validId, itemName), resultId) 
+        return failures.IsEmpty
+            ? RailwayResult<Item>.Success(new Item(validId, validItemName), resultId)
             : RailwayResult<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
     }
 
@@ -45,4 +45,6 @@ public sealed class Item
 
     // Name of the item.
     public ItemName Name { get; }
+
+    public static readonly Item None = new(Guid.Empty, ItemName.None);
 }

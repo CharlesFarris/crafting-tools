@@ -36,7 +36,7 @@ internal static class RailwayResultExtensionsTests
     {
         var result = value.ToResultIsNotNullOrEmpty("message");
         return result.IsSuccess
-            ? string.Join("|", result.Status, result.Value.ToSafeString())
+            ? string.Join("|", result.Status, result.Unwrap().ToSafeString())
             : string.Join("|", result.Status, result.Error.Message);
     }
 
@@ -52,7 +52,7 @@ internal static class RailwayResultExtensionsTests
     {
         var result = value.ToResultIsNotNullOrWhitespace("message");
         return result.IsSuccess
-            ? string.Join("|", result.Status, result.Value.ToSafeString())
+            ? string.Join("|", result.Status, result.Unwrap().ToSafeString())
             : string.Join("|", result.Status, result.Error.Message);
     }
 

@@ -3,20 +3,33 @@ using CraftingTools.Shared;
 
 namespace CraftingTools.Domain;
 
+/// <summary>
+/// Micro-type used to represent the name of a
+/// <see cref="Item"/>.
+/// </summary>
 public sealed class ItemName : ValueObject
 {
+    /// <summary>
+    /// Constructor.
+    /// </summary>
     private ItemName(string value)
     {
         this.Value = value;
     }
+
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }
-    
+
     public string Value { get; }
 
-    public static RailwayResult<ItemName> FromParameter(string? value, string? id)
+    public static readonly ItemName None = new(string.Empty);
+
+    /// <summary>
+    /// Factory method for creating <see cref="ItemName"/> instances.
+    /// </summary>
+    public static RailwayResult<ItemName> FromParameter(string? value, string? resultId = default)
     {
         var failures = ImmutableList<RailwayResultBase>.Empty;
 
@@ -26,7 +39,7 @@ public sealed class ItemName : ValueObject
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<ItemName>.Success(new ItemName(validValue), id)
-            : RailwayResult<ItemName>.Failure(failures.ToError(message: "Unable to construct item name."), id);
+            ? RailwayResult<ItemName>.Success(new ItemName(validValue), resultId)
+            : RailwayResult<ItemName>.Failure(failures.ToError(message: "Unable to construct item name."), resultId);
     }
 }

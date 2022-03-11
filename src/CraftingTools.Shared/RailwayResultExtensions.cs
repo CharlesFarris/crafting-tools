@@ -84,7 +84,7 @@ public static class RailwayResultExtensions
             return inResult;
         }
 
-        return predicate.Invoke(inResult.Unwrap())
+        return predicate.Invoke(inResult.Value!)
             ? inResult
             : RailwayResult<TValue>.Failure(failureMessage.ToError(), id ?? inResult.Id);
     }
@@ -142,6 +142,48 @@ public static class RailwayResultExtensions
         }
 
         return RailwayResult<TOutput>.Failure($"Conversion to {outputType.Name} is not implemented.".ToError());
+    }
+
+    public static RailwayResult<TOutput> OnSuccess<TInput, TOutput>(
+        this RailwayResult<TInput> inResult,
+        Func<TInput, RailwayResult<TOutput>> function,
+        string? id = default)
+    {
+        if (inResult is null)
+        {
+            throw new ArgumentNullException(nameof(inResult));
+        }
+
+        if (function is null)
+        {
+            throw new ArgumentNullException(nameof(function));
+        }
+
+        return inResult.IsSuccess
+            ? function(inResult.Unwrap())
+            : RailwayResult<TOutput>.Failure(inResult.Error, id ?? inResult.Id);
+    }
+
+    public static RailwayResult<TInput> OnSuccess<TInput>(
+        this RailwayResult<TInput> inResult,
+        Action<TInput> action)
+    {
+        if (inResult is null)
+        {
+            throw new ArgumentNullException(nameof(inResult));
+        }
+
+        if (action is null)
+        {
+            throw new ArgumentNullException(nameof(action));
+        }
+
+        if (inResult.IsSuccess)
+        {
+            action(inResult.Unwrap());
+        }
+
+        return inResult;
     }
 
     private static RailwayResult<string> AsString(object? value, string? id)

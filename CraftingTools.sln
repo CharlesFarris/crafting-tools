@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DBFD0898-B6FF-4C59-B1D8-1C7E0A7CFC5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Shared", "src\CraftingTools.Shared\CraftingTools.Shared.csproj", "{B0A5E5EA-735F-42C3-B681-C507844C227C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Domain", "src\CraftingTools.Domain\CraftingTools.Domain.csproj", "{4AE672C9-6614-4195-A5AF-8344C697DD0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Domain.Test", "src\CraftingTools.Domain.Test\CraftingTools.Domain.Test.csproj", "{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Shared.Test", "src\CraftingTools.Shared.Test\CraftingTools.Shared.Test.csproj", "{D61D608B-B81E-4AFB-A639-034570E51621}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0A5E5EA-735F-42C3-B681-C507844C227C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A5E5EA-735F-42C3-B681-C507844C227C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A5E5EA-735F-42C3-B681-C507844C227C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A5E5EA-735F-42C3-B681-C507844C227C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE672C9-6614-4195-A5AF-8344C697DD0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE672C9-6614-4195-A5AF-8344C697DD0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE672C9-6614-4195-A5AF-8344C697DD0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE672C9-6614-4195-A5AF-8344C697DD0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61D608B-B81E-4AFB-A639-034570E51621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61D608B-B81E-4AFB-A639-034570E51621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61D608B-B81E-4AFB-A639-034570E51621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61D608B-B81E-4AFB-A639-034570E51621}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B0A5E5EA-735F-42C3-B681-C507844C227C} = {DBFD0898-B6FF-4C59-B1D8-1C7E0A7CFC5D}
+		{4AE672C9-6614-4195-A5AF-8344C697DD0A} = {DBFD0898-B6FF-4C59-B1D8-1C7E0A7CFC5D}
+		{81672B6D-5A6D-4A98-BDB7-B70FF40715EE} = {DBFD0898-B6FF-4C59-B1D8-1C7E0A7CFC5D}
+		{D61D608B-B81E-4AFB-A639-034570E51621} = {DBFD0898-B6FF-4C59-B1D8-1C7E0A7CFC5D}
+	EndGlobalSection
+EndGlobal

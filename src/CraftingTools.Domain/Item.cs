@@ -6,14 +6,14 @@ namespace CraftingTools.Domain;
 /// <summary>
 /// Domain object describing an in-game item.
 /// </summary>
-public sealed class Item
+public sealed class Item : Entity
 {
     /// <summary>
     /// Constructor.
     /// </summary>
     private Item(Guid id, ItemName name)
+        : base(id)
     {
-        this.Id = id;
         this.Name = name;
     }
 
@@ -25,8 +25,7 @@ public sealed class Item
         var failures = ImmutableList<RailwayResultBase>.Empty;
 
         var validId = id
-            .ToResult(nameof(id))
-            .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
+            .ToValidResult("Id cannot be empty", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validItemName = itemName
@@ -37,11 +36,6 @@ public sealed class Item
             ? RailwayResult<Item>.Success(new Item(validId, validItemName), resultId)
             : RailwayResult<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
     }
-
-    /// <summary>
-    /// ID of the item.
-    /// </summary>
-    public Guid Id { get; }
 
     // Name of the item.
     public ItemName Name { get; }

@@ -9,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="ItemName.cs~" />
+        <None Remove="ItemName.cs~" />
     </ItemGroup>
 
     <PropertyGroup>

@@ -29,7 +29,7 @@ public sealed class InventoryManager
             {
                 if (this._slots.TryGetValue(item.Id, out var existing))
                 {
-                    this._slots[item.Id] = existing + count;    
+                    this._slots[item.Id] = existing + count;
                 }
                 else
                 {
@@ -54,6 +54,7 @@ public sealed class InventoryManager
                 {
                     return RailwayResult<int>.Failure("Insufficient items in inventory.".ToError());
                 }
+
                 var remaining = existing - count;
                 this._slots[item.Id] = existing - count;
                 return RailwayResult<int>.Success(remaining);

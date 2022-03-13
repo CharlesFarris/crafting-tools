@@ -20,7 +20,7 @@ public sealed class Item : Entity
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static RailwayResult<Item> FromParameters(Guid id, ItemName itemName, string? resultId)
+    public static RailwayResult<Item> FromParameters(Guid id, ItemName itemName, string? resultId = default)
     {
         var failures = ImmutableList<RailwayResultBase>.Empty;
 

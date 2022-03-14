@@ -12,9 +12,9 @@ public sealed class RailwayResultFailureException : Exception
     /// Constructor.
     /// </summary>
     public RailwayResultFailureException(
-        string? message, 
+        string? message,
         ImmutableList<RailwayResultBase>? failures)
-    : base(message.ToSafeString())
+        : base(message.ToSafeString())
     {
         this.Failures = failures ?? ImmutableList<RailwayResultBase>.Empty;
     }

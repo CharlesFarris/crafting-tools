@@ -17,7 +17,7 @@ internal static class ValueObjectTests
         // use case: null comparison
         {
             var left = new MockValueObjectA(value: "left");
-            Assert.That(left.Equals(null), Is.False);
+            Assert.That(left.Equals(obj: null), Is.False);
         }
 
         // use case: not a value object type comparison
@@ -26,7 +26,7 @@ internal static class ValueObjectTests
             var right = new object();
             Assert.That(left.Equals(right), Is.False);
         }
-        
+
         // use case: different value object type comparison
         {
             var left = new MockValueObjectA(value: "left");
@@ -34,7 +34,7 @@ internal static class ValueObjectTests
             // ReSharper disable once SuspiciousTypeConversion.Global
             Assert.That(left.Equals(right), Is.False);
         }
-        
+
         // use case: same value object type, different value comparison
         {
             var left = new MockValueObjectA(value: "left");
@@ -43,7 +43,7 @@ internal static class ValueObjectTests
             Assert.That(left == right, Is.False);
             Assert.That(left != right, Is.True);
         }
-        
+
         // use case: same value object type, same value comparison
         {
             var left = new MockValueObjectA(value: "left");
@@ -52,7 +52,7 @@ internal static class ValueObjectTests
             Assert.That(left == right, Is.True);
             Assert.That(left != right, Is.False);
         }
-        
+
         // use case: same instance comparison
         {
             var left = new MockValueObjectA(value: "left");
@@ -81,6 +81,7 @@ internal static class ValueObjectTests
         {
             this.Value = value;
         }
+
         protected override bool EqualsCore(MockValueObjectA other)
         {
             return this.Value == other.Value;
@@ -91,11 +92,7 @@ internal static class ValueObjectTests
             return this.Value.GetHashCode();
         }
 
-        private string Value
-        {
-            get;
-        }
-        
+        private string Value { get; }
     }
 
     private sealed class MockValueObjectB : ValueObject<MockValueObjectB>
@@ -104,12 +101,12 @@ internal static class ValueObjectTests
         {
             this._value = value;
         }
-        
+
         protected override bool EqualsCore(MockValueObjectB other)
         {
             return this._value == other._value;
         }
-        
+
         protected override int GetHashCodeCore()
         {
             return this._value.GetHashCode();

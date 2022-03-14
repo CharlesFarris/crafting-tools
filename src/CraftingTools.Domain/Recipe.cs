@@ -21,7 +21,7 @@ public sealed class Recipe : Entity
 
     public ImmutableList<RecipeInput> Inputs { get; }
 
-    public static readonly Recipe None = new(id: Guid.Empty, Profession.None, RecipeOutput.None,
+    public static readonly Recipe None = new(Guid.Empty, Profession.None, RecipeOutput.None,
         ImmutableList<RecipeInput>.Empty);
 
     /// <summary>

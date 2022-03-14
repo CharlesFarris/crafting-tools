@@ -25,11 +25,11 @@ public sealed class Item : Entity
         var failures = ImmutableList<RailwayResultBase>.Empty;
 
         var validId = id
-            .ToValidResult("Id cannot be empty", nameof(id))
+            .ToValidResult(failureMessage: "Id cannot be empty", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validItemName = itemName
-            .ToResultIsNotNull("Item name cannot be null.", nameof(itemName))
+            .ToResultIsNotNull(failureMessage: "Item name cannot be null.", nameof(itemName))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty

@@ -15,7 +15,7 @@ public static class ItemExtensions
     {
         return item
             .ToResultIsNotNull(failureMessage: "Item cannot be null", resultId)
-            .Check(value => value != Item.None, "Item cannot be none.");
+            .Check(value => value != Item.None, failureMessage: "Item cannot be none.");
     }
 
     public static bool IsValid(this Item? item)

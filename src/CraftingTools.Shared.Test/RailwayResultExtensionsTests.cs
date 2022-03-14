@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
 
 namespace CraftingTools.Shared.Test;
@@ -28,32 +27,32 @@ internal static class RailwayResultExtensionsTests
     /// Validates the <c>ToResultIsNotNullOrEmpty</c> returns back the correct
     /// failure result if the string is null or empty.  
     /// </summary>
-    [TestCase(null, ExpectedResult = "Failure|message", TestName = "null_value")]
-    [TestCase("", ExpectedResult = "Failure|message", TestName = "empty_value")]
-    [TestCase(" ", ExpectedResult = "Success| ", TestName = "whitespace_value")]
-    [TestCase("abc", ExpectedResult = "Success|abc", TestName = "valid_value")]
+    [TestCase(arguments: null, ExpectedResult = "Failure|message", TestName = "null_value")]
+    [TestCase(arg: "", ExpectedResult = "Failure|message", TestName = "empty_value")]
+    [TestCase(arg: " ", ExpectedResult = "Success| ", TestName = "whitespace_value")]
+    [TestCase(arg: "abc", ExpectedResult = "Success|abc", TestName = "valid_value")]
     public static string ToResultIsNotNullOrEmpty_ValidatesBehavior(string value)
     {
-        var result = value.ToResultIsNotNullOrEmpty("message");
+        var result = value.ToResultIsNotNullOrEmpty(failureMessage: "message");
         return result.IsSuccess
-            ? string.Join("|", result.Status, result.Unwrap().ToSafeString())
-            : string.Join("|", result.Status, result.Error.Message);
+            ? string.Join(separator: "|", result.Status, result.Unwrap().ToSafeString())
+            : string.Join(separator: "|", result.Status, result.Error.Message);
     }
 
     /// <summary>
     /// Validates the <c>ToResultIsNotNullOrEmpty</c> returns back the correct
     /// failure result if the string is null, empty, or whitespace.  
     /// </summary>
-    [TestCase(null, ExpectedResult = "Failure|message", TestName = "null_value")]
-    [TestCase("", ExpectedResult = "Failure|message", TestName = "empty_value")]
-    [TestCase(" ", ExpectedResult = "Failure|message", TestName = "whitespace_value")]
-    [TestCase("abc", ExpectedResult = "Success|abc", TestName = "valid_value")]
+    [TestCase(arguments: null, ExpectedResult = "Failure|message", TestName = "null_value")]
+    [TestCase(arg: "", ExpectedResult = "Failure|message", TestName = "empty_value")]
+    [TestCase(arg: " ", ExpectedResult = "Failure|message", TestName = "whitespace_value")]
+    [TestCase(arg: "abc", ExpectedResult = "Success|abc", TestName = "valid_value")]
     public static string ToResultIsNotNullOrWhitespace_ValidatesBehavior(string value)
     {
-        var result = value.ToResultIsNotNullOrWhitespace("message");
+        var result = value.ToResultIsNotNullOrWhitespace(failureMessage: "message");
         return result.IsSuccess
-            ? string.Join("|", result.Status, result.Unwrap().ToSafeString())
-            : string.Join("|", result.Status, result.Error.Message);
+            ? string.Join(separator: "|", result.Status, result.Unwrap().ToSafeString())
+            : string.Join(separator: "|", result.Status, result.Error.Message);
     }
 
     /// <summary>
@@ -69,7 +68,7 @@ internal static class RailwayResultExtensionsTests
             {
                 var _ = default(RailwayResult<object>)!.Check(_ => false, failureMessage: "message");
             });
-            Assert.That(ex!.ParamName, Is.EqualTo("inResult"));
+            Assert.That(ex!.ParamName, Is.EqualTo(expected: "inResult"));
         }
 
         // use case: null result parameter
@@ -78,7 +77,7 @@ internal static class RailwayResultExtensionsTests
             {
                 var _ = new object().ToResult().Check(default!, failureMessage: "message");
             });
-            Assert.That(ex!.ParamName, Is.EqualTo("predicate"));
+            Assert.That(ex!.ParamName, Is.EqualTo(expected: "predicate"));
         }
 
         // use case: failure result
@@ -101,16 +100,16 @@ internal static class RailwayResultExtensionsTests
             var outResult = inResult.ToResult().Check(_ => false, failureMessage: "message", id: "id");
             Assert.That(outResult, Is.Not.Null);
             Assert.That(outResult.Status, Is.EqualTo(RailwayResultStatus.Failure));
-            Assert.That(outResult.Error.Message, Is.EqualTo("message"));
-            Assert.That(outResult.Id, Is.EqualTo("id"));
+            Assert.That(outResult.Error.Message, Is.EqualTo(expected: "message"));
+            Assert.That(outResult.Id, Is.EqualTo(expected: "id"));
         }
-        
+
         // use case: default ID
         {
             var inResult = RailwayResult<object>.Success(new object(), id: "in_id");
             var outResult = inResult.Check(_ => true, failureMessage: "message");
             Assert.That(outResult, Is.EqualTo(inResult));
-            Assert.That(outResult.Id, Is.EqualTo("in_id"));
+            Assert.That(outResult.Id, Is.EqualTo(expected: "in_id"));
         }
     }
 
@@ -126,8 +125,8 @@ internal static class RailwayResultExtensionsTests
             var result = default(object).ToResultIsNotNull(failureMessage: "message", id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
-            Assert.That(result.Error.Message, Is.EqualTo("message"));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Error.Message, Is.EqualTo(expected: "message"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
 
         // use case: non-null value
@@ -137,10 +136,10 @@ internal static class RailwayResultExtensionsTests
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
             Assert.That(result.Unwrap(), Is.EqualTo(value));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
     }
-    
+
     /// <summary>
     /// Validates the behavior of the <c>UnwrapOrAddToFailuresImmutable</c> method.
     /// </summary>
@@ -154,9 +153,9 @@ internal static class RailwayResultExtensionsTests
                 var failures = ImmutableList<RailwayResultBase>.Empty;
                 var _ = default(RailwayResult<object>)!.UnwrapOrAddToFailuresImmutable(ref failures);
             });
-            Assert.That(ex!.ParamName, Is.EqualTo("result"));
+            Assert.That(ex!.ParamName, Is.EqualTo(expected: "result"));
         }
-        
+
         // use case: null failures collection
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
@@ -164,9 +163,9 @@ internal static class RailwayResultExtensionsTests
                 var failures = default(ImmutableList<RailwayResultBase>);
                 var _ = RailwayResult<object>.Success(new object()).UnwrapOrAddToFailuresImmutable(ref failures!);
             });
-            Assert.That(ex!.ParamName, Is.EqualTo("failures"));
+            Assert.That(ex!.ParamName, Is.EqualTo(expected: "failures"));
         }
-        
+
         // use case: success result
         {
             var value = new object();
@@ -174,15 +173,15 @@ internal static class RailwayResultExtensionsTests
             var unwrapped = value.ToResult().UnwrapOrAddToFailuresImmutable(ref failures);
             Assert.That(unwrapped, Is.EqualTo(value));
         }
-        
+
         // use case: failure result
         {
             var failures = ImmutableList<RailwayResultBase>.Empty;
             var inResult = RailwayResult<object>.Failure(Error.Empty);
             var unwrapped = inResult.UnwrapOrAddToFailuresImmutable(ref failures);
             Assert.That(unwrapped, Is.Null);
-            Assert.That(failures.Count, Is.EqualTo(1));
-            Assert.That(failures[0], Is.EqualTo(inResult));
+            Assert.That(failures.Count, Is.EqualTo(expected: 1));
+            Assert.That(failures[index: 0], Is.EqualTo(inResult));
         }
     }
 
@@ -197,25 +196,25 @@ internal static class RailwayResultExtensionsTests
             var result = default(object).As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
-            Assert.That(result.Unwrap(), Is.EqualTo(0M));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Unwrap(), Is.EqualTo(expected: 0M));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
-        
+
         // use case: valid string value
         {
             var result = "12.34".As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
-            Assert.That(result.Unwrap(), Is.EqualTo(12.34M));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Unwrap(), Is.EqualTo(expected: 12.34M));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
-        
+
         // use case: invalid string value
         {
             var result = "abc".As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
-            Assert.That(result.Error.Message, Is.EqualTo("Unable to parse decimal."));
+            Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to parse decimal."));
         }
 
         // use case: valid decimal value
@@ -223,8 +222,8 @@ internal static class RailwayResultExtensionsTests
             var result = 12.34M.As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
-            Assert.That(result.Unwrap(), Is.EqualTo(12.34M));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Unwrap(), Is.EqualTo(expected: 12.34M));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
 
         // use case: valid integer value
@@ -232,8 +231,8 @@ internal static class RailwayResultExtensionsTests
             var result = 1234.As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
-            Assert.That(result.Unwrap(), Is.EqualTo(1234M));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Unwrap(), Is.EqualTo(expected: 1234M));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
 
         // use case: invalid value type
@@ -241,8 +240,7 @@ internal static class RailwayResultExtensionsTests
             var result = new Exception().As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
-            Assert.That(result.Error.Message, Is.EqualTo("Unable to convert to decimal."));
+            Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to convert to decimal."));
         }
-
     }
 }

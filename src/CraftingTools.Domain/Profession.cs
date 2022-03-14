@@ -10,7 +10,7 @@ public class Profession : Entity
         this.Name = name;
     }
 
-    public static readonly Profession None = new(id: Guid.Empty, name: ProfessionName.None);
+    public static readonly Profession None = new(Guid.Empty, ProfessionName.None);
     public ProfessionName Name { get; }
 
     public static RailwayResult<Profession> FromParameters(Guid id, ProfessionName name, string? resultId = default)
@@ -23,11 +23,11 @@ public class Profession : Entity
 
         var validName = name
             .ToResultIsNotNull(failureMessage: "Name cannot be null", nameof(name))
-            .Check(value => value != ProfessionName.None, "Name cannot be none.")
+            .Check(value => value != ProfessionName.None, failureMessage: "Name cannot be none.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
             ? RailwayResult<Profession>.Success(new Profession(validId, validName), resultId)
-            : RailwayResult<Profession>.Failure(failures.ToError("Unable to create profession."), resultId);
+            : RailwayResult<Profession>.Failure(failures.ToError(message: "Unable to create profession."), resultId);
     }
 }

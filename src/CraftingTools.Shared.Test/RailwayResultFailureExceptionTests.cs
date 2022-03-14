@@ -21,13 +21,13 @@ internal static class RailwayResultFailureExceptionTests
             Assert.That(exception.Failures, Is.Not.Null);
             Assert.That(exception.Failures.IsEmpty, Is.True);
         }
-        
+
         // use case: valid parameters
         {
             var failures = ImmutableList<RailwayResultBase>.Empty
                 .Add(RailwayResult<object>.Failure(Error.Empty));
             var exception = new RailwayResultFailureException(message: "message", failures);
-            Assert.That(exception.Message, Is.EqualTo("message"));
+            Assert.That(exception.Message, Is.EqualTo(expected: "message"));
             Assert.That(exception.Failures, Is.EqualTo(failures));
         }
     }

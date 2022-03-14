@@ -11,5 +11,5 @@ public sealed class DefaultGuidProvider : IGuidProvider
         return Guid.NewGuid();
     }
 
-    public static readonly DefaultGuidProvider Instance = new DefaultGuidProvider();
+    public static readonly DefaultGuidProvider Instance = new();
 }

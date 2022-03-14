@@ -11,12 +11,12 @@ internal static class RangeTests
     /// Validates the behavior of the factory method.
     /// </summary>
     /// <returns></returns>
-    [TestCase(1, 5, ExpectedResult = "1,5", TestName = "start_less_end")]
-    [TestCase(5, 1, ExpectedResult = "1,5", TestName="start_greater_end")]
-    [TestCase(1, 1, ExpectedResult = "1,1", TestName="start_equals_end")]
+    [TestCase(arg1: 1, arg2: 5, ExpectedResult = "1,5", TestName = "start_less_end")]
+    [TestCase(arg1: 5, arg2: 1, ExpectedResult = "1,5", TestName = "start_greater_end")]
+    [TestCase(arg1: 1, arg2: 1, ExpectedResult = "1,1", TestName = "start_equals_end")]
     public static string Ctor_ValidatesBehavior(int start, int end)
     {
         var range = new Range(start, end);
-        return string.Join(",", range.Start, range.End);
+        return string.Join(separator: ",", range.Start, range.End);
     }
 }

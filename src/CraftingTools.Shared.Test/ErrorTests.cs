@@ -10,6 +10,5 @@ internal static class ErrorTests
     [Test]
     public static void Message_ValidatesBehavior()
     {
-        
     }
 }

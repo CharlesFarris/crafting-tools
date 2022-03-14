@@ -52,7 +52,7 @@ public abstract class Entity
     {
         return !(a == b);
     }
-    
+
     /// <summary>
     /// ID of the entity.
     /// </summary>

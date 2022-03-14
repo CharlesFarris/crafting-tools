@@ -18,26 +18,25 @@ internal static class RailwayResultBaseTests
         {
             var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                var _ = new MockRailwayResult(RailwayResultStatus.Unknown, Error.Empty, id: string.Empty);
+                var _ = new MockRailwayResult(RailwayResultStatus.Unknown, Error.Empty, string.Empty);
             });
-            Assert.That(ex?.ParamName, Is.EqualTo("status"));
+            Assert.That(ex?.ParamName, Is.EqualTo(expected: "status"));
         }
-        
+
         // use case: set valid status with no ID
         {
             var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty, id: default);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
             Assert.That(result.Error, Is.EqualTo(Error.Empty));
             Assert.That(result.Id, Is.Empty);
-
         }
-        
+
         // use case: set valid status
         {
             var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty, id: "id");
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
             Assert.That(result.Error, Is.EqualTo(Error.Empty));
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
     }
 
@@ -51,17 +50,17 @@ internal static class RailwayResultBaseTests
         {
             var result = new MockRailwayResult(RailwayResultStatus.Failure, Error.Empty, id: "id");
             Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
-        
+
         // use case: verify success behavior
         {
             var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty, id: "id");
             Assert.That(result.IsSuccess, Is.True);
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
     }
-    
+
     /// <summary>
     /// Validates the behavior fo the <c>IsFailure</c> property.
     /// </summary>
@@ -72,14 +71,14 @@ internal static class RailwayResultBaseTests
         {
             var result = new MockRailwayResult(RailwayResultStatus.Failure, Error.Empty, id: "id");
             Assert.That(result.IsFailure, Is.True);
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
-        
+
         // use case: verify success behavior
         {
             var result = new MockRailwayResult(RailwayResultStatus.Success, Error.Empty, id: "id");
             Assert.That(result.IsFailure, Is.False);
-            Assert.That(result.Id, Is.EqualTo("id"));
+            Assert.That(result.Id, Is.EqualTo(expected: "id"));
         }
     }
 

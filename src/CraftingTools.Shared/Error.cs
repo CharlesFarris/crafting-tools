@@ -18,7 +18,7 @@ public sealed class Error
         this._message = message;
         this.Exception = exception;
     }
-    
+
     /// <summary>
     /// Gets the message associated with the error.  If the message
     /// field is not null or empty, the message field is returned.  If
@@ -37,7 +37,7 @@ public sealed class Error
     /// </summary>
     public Exception? Exception { get; }
 
-    public static readonly Error Empty = new(string.Empty, null);
-    
+    public static readonly Error Empty = new(string.Empty, exception: null);
+
     private readonly string? _message;
 }

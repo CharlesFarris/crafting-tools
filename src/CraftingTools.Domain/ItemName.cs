@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+﻿using CraftingTools.Shared;
 
 namespace CraftingTools.Domain;
 
@@ -31,7 +30,7 @@ public sealed class ItemName : ValueObject<ItemName>
 
     public string Value { get; }
 
-    public static readonly ItemName None = new(value: string.Empty);
+    public static readonly ItemName None = new(string.Empty);
 
     /// <summary>
     /// Factory method for creating <see cref="ItemName"/> instances.

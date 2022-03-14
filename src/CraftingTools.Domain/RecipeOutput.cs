@@ -51,7 +51,7 @@ public sealed class RecipeOutput : ValueObject<RecipeOutput>
 
         var validItem = item
             .ToResultIsNotNull(failureMessage: "Item cannot be null.", nameof(item))
-            .Check(value => !ReferenceEquals(item, Item.None), failureMessage: "Item cannot be none.")
+            .Check(value => !ReferenceEquals(value, Item.None), failureMessage: "Item cannot be none.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validCount = count
@@ -61,6 +61,7 @@ public sealed class RecipeOutput : ValueObject<RecipeOutput>
 
         return failures.IsEmpty
             ? RailwayResult<RecipeOutput>.Success(new RecipeOutput(validItem, validCount), resultId)
-            : RailwayResult<RecipeOutput>.Failure(failures.ToError("Unable to create recipe output."), resultId);
+            : RailwayResult<RecipeOutput>.Failure(failures.ToError(message: "Unable to create recipe output."),
+                resultId);
     }
 }

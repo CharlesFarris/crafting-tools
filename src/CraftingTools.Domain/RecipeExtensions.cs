@@ -90,7 +90,7 @@ public static class RecipeExtensions
 
         if (!failures.IsEmpty)
         {
-            return RailwayResult<Recipe>.Failure(failures.ToError("Unable to delete input"));
+            return RailwayResult<Recipe>.Failure(failures.ToError(message: "Unable to delete input"));
         }
 
         var updatedInputs = validRecipe.Inputs.RemoveAll(i => i.Item == validItem);
@@ -122,7 +122,7 @@ public static class RecipeExtensions
 
         if (!failures.IsEmpty)
         {
-            return RailwayResult<Recipe>.Failure(failures.ToError("Unable to set input."), resultId);
+            return RailwayResult<Recipe>.Failure(failures.ToError(message: "Unable to set input."), resultId);
         }
 
         var updatedInputs = validRecipe.Inputs.Remove(validInput);

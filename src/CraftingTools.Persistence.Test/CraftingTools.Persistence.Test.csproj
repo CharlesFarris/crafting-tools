@@ -15,8 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CraftingTools.Domain\CraftingTools.Domain.csproj"/>
-        <ProjectReference Include="..\CraftingTools.Shared.Test\CraftingTools.Shared.Test.csproj"/>
+        <ProjectReference Include="..\CraftingTools.Persistence\CraftingTools.Persistence.csproj"/>
+        <ProjectReference Include="..\CraftingTools.Shared\CraftingTools.Shared.csproj"/>
     </ItemGroup>
 
 </Project>

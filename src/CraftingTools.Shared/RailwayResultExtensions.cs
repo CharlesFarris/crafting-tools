@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Diagnostics;
 
 namespace CraftingTools.Shared;
 
@@ -190,7 +189,7 @@ public static class RailwayResultExtensions
     {
         return value switch
         {
-            null => RailwayResult<string>.Success(value: string.Empty, id),
+            null => RailwayResult<string>.Success(string.Empty, id),
             string stringValue => RailwayResult<string>.Success(stringValue, id),
             _ => RailwayResult<string>.Success(value.ToSafeString(), id)
         };
@@ -213,13 +212,13 @@ public static class RailwayResultExtensions
     {
         return value switch
         {
-            null => RailwayResult<decimal>.Success(0M, id),
+            null => RailwayResult<decimal>.Success(value: 0M, id),
             decimal decimalValue => RailwayResult<decimal>.Success(decimalValue, id),
             int intValue => RailwayResult<decimal>.Success(intValue, id),
             string stringValue when decimal.TryParse(stringValue, out var parsed) => RailwayResult<decimal>.Success(
                 parsed, id),
             string => RailwayResult<decimal>.Failure("Unable to parse decimal.".ToError(), id),
-            _ => RailwayResult<decimal>.Failure("Unable to convert to decimal.".ToError(),id)
+            _ => RailwayResult<decimal>.Failure("Unable to convert to decimal.".ToError(), id)
         };
     }
 }

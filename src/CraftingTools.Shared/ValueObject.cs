@@ -4,7 +4,7 @@
 /// Value object base class derived from V. Khorikov's <c>ValueObject</c> class
 /// in "Domain-Driven Design in Practice" Pluralsight course.
 /// </summary>
-public abstract class ValueObject<T> where T: ValueObject<T>
+public abstract class ValueObject<T> where T : ValueObject<T>
 {
     /// <summary>
     /// Overrides the base method to use the derived class'
@@ -34,7 +34,7 @@ public abstract class ValueObject<T> where T: ValueObject<T>
     /// </summary>
     /// <returns></returns>
     protected abstract int GetHashCodeCore();
-    
+
     /// <summary>
     /// Implements the <c>==</c> operator.
     /// </summary>

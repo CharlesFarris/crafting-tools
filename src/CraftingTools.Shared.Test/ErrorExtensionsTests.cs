@@ -18,20 +18,20 @@ internal static class ErrorExtensionsTests
     {
         // use case: wrap non-null exception with default error message
         {
-            var exception = new Exception("exception message");
+            var exception = new Exception(message: "exception message");
             var error = exception.ToError();
             Assert.That(error.Message, Is.EqualTo(exception.Message));
             Assert.That(error.Exception, Is.EqualTo(exception));
         }
-        
+
         // use case: wrap non-null exception with an supplied error message
         {
-            var exception = new Exception("exception message");
-            var error = exception.ToError("base message");
-            Assert.That(error.Message, Is.EqualTo("base message"));
+            var exception = new Exception(message: "exception message");
+            var error = exception.ToError(message: "base message");
+            Assert.That(error.Message, Is.EqualTo(expected: "base message"));
             Assert.That(error.Exception, Is.EqualTo(exception));
         }
-        
+
         // use case: wrap null exception with no supplied error message
         {
             var error = default(Exception).ToError();
@@ -50,7 +50,7 @@ internal static class ErrorExtensionsTests
             Assert.That(error.Message, Is.EqualTo(message));
             Assert.That(error.Exception, Is.Null);
         }
-        
+
         // use case: wrap empty error message
         {
             var error = default(string).ToError();

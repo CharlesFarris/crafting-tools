@@ -15,6 +15,6 @@ public static class ProfessionExtensions
     {
         return profession
             .ToResultIsNotNull(failureMessage: "Profession cannot be null", resultId)
-            .Check(value => value != Profession.None, "Profession cannot be none.");
+            .Check(value => value != Profession.None, failureMessage: "Profession cannot be none.");
     }
 }

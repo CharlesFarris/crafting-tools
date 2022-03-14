@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using CraftingTools.Shared;
-
-namespace CraftingTools.Domain;
+﻿namespace CraftingTools.Domain;
 
 /// <summary>
 /// Value object describing a range of integer values.

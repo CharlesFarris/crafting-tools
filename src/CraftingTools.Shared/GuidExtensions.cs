@@ -3,7 +3,7 @@
 public static class GuidExtensions
 {
     public static RailwayResult<Guid> ToValidResult(
-        this Guid guid, 
+        this Guid guid,
         string? failureMessage = default,
         string? resultId = default)
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+﻿using CraftingTools.Shared;
 
 namespace CraftingTools.Domain;
 

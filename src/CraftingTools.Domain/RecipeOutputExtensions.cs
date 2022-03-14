@@ -17,9 +17,4 @@ public static class RecipeOutputExtensions
             .ToResultIsNotNull(failureMessage: "Output cannot be null.", resultId)
             .Check(value => value != RecipeOutput.None, failureMessage: "Output cannot be none");
     }
-
-    public static RailwayResult<RecipeOutput> ToRecipeOutput(this Item item, int count, string? resultId  =default)
-    {
-        return RecipeOutput.FromParameters(item, count, resultId);
-    }
 }

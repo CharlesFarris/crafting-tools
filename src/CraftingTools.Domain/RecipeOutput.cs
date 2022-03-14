@@ -1,0 +1,66 @@
+﻿using System.Collections.Immutable;
+using CraftingTools.Shared;
+
+namespace CraftingTools.Domain;
+
+/// <summary>
+/// Output of a <see cref="Recipe"/>.
+/// </summary>
+public sealed class RecipeOutput : ValueObject<RecipeOutput>
+{
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    private RecipeOutput(Item item, int count)
+    {
+        this.Item = item;
+        this.Count = count;
+    }
+
+    /// <inheritdoc cref="ValueObject{T}"/>
+    protected override bool EqualsCore(RecipeOutput other)
+    {
+        return this.Item == other.Item && this.Count == other.Count;
+    }
+
+    /// <inheritdoc cref="ValueObject{T}"/>
+    protected override int GetHashCodeCore()
+    {
+        return (this.Item, this.Count).GetHashCode();
+    }
+
+    /// <summary>
+    /// The item being created.
+    /// </summary>
+    public Item Item { get; }
+
+    /// <summary>
+    /// The number of items being created.
+    /// </summary>
+    public int Count { get; }
+
+    public static readonly RecipeOutput None = new(Item.None, count: 0);
+
+    /// <summary>
+    /// Factory method for creating a <see cref="RecipeOutput"/> instance
+    /// from the supplied parameters.
+    /// </summary>
+    public static RailwayResult<RecipeOutput> FromParameters(Item item, int count, string? resultId = default)
+    {
+        var failures = ImmutableList<RailwayResultBase>.Empty;
+
+        var validItem = item
+            .ToResultIsNotNull(failureMessage: "Item cannot be null.", nameof(item))
+            .Check(value => !ReferenceEquals(item, Item.None), failureMessage: "Item cannot be none.")
+            .UnwrapOrAddToFailuresImmutable(ref failures);
+
+        var validCount = count
+            .ToResult(nameof(count))
+            .Check(value => value > 0, failureMessage: "Count must be positive.")
+            .UnwrapOrAddToFailuresImmutable(ref failures);
+
+        return failures.IsEmpty
+            ? RailwayResult<RecipeOutput>.Success(new RecipeOutput(validItem, validCount), resultId)
+            : RailwayResult<RecipeOutput>.Failure(failures.ToError("Unable to create recipe output."), resultId);
+    }
+}

@@ -6,43 +6,39 @@ namespace CraftingTools.Domain;
 /// <summary>
 /// Domain object describing an in-game item.
 /// </summary>
-public sealed class Item
+public sealed class Item : Entity
 {
     /// <summary>
     /// Constructor.
     /// </summary>
     private Item(Guid id, ItemName name)
+        : base(id)
     {
-        this.Id = id;
         this.Name = name;
     }
 
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static RailwayResult<Item> FromParameters(Guid id, string? name, string? resultId)
+    public static RailwayResult<Item> FromParameters(Guid id, ItemName itemName, string? resultId = default)
     {
         var failures = ImmutableList<RailwayResultBase>.Empty;
 
         var validId = id
-            .ToResult(nameof(id))
-            .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
+            .ToValidResult("Id cannot be empty", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        var itemName = ItemName
-            .FromParameter(name, nameof(name))
+        var validItemName = itemName
+            .ToResultIsNotNull("Item name cannot be null.", nameof(itemName))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        return failures.IsEmpty 
-            ? RailwayResult<Item>.Success(new Item(validId, itemName), resultId) 
+        return failures.IsEmpty
+            ? RailwayResult<Item>.Success(new Item(validId, validItemName), resultId)
             : RailwayResult<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
     }
 
-    /// <summary>
-    /// ID of the item.
-    /// </summary>
-    public Guid Id { get; }
-
     // Name of the item.
     public ItemName Name { get; }
+
+    public static readonly Item None = new(Guid.Empty, ItemName.None);
 }

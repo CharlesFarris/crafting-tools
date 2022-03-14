@@ -47,5 +47,5 @@ public class RailwayResult<TValue> : RailwayResultBase
     /// <summary>
     /// Value stored in the result.
     /// </summary>
-    public TValue? Value { get; }
+    internal TValue? Value { get; }
 }

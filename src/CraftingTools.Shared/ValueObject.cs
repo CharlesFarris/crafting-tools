@@ -1,43 +1,53 @@
 ﻿namespace CraftingTools.Shared;
 
 /// <summary>
-/// Derived from the Microsoft implementation at
-/// https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects.
+/// Value object base class derived from V. Khorikov's <c>ValueObject</c> class
+/// in "Domain-Driven Design in Practice" Pluralsight course.
 /// </summary>
-public abstract class ValueObject
+public abstract class ValueObject<T> where T: ValueObject<T>
 {
-    protected static bool EqualOperator(ValueObject left, ValueObject right)
-    {
-        if (ReferenceEquals(left, objB: null) ^ ReferenceEquals(right, objB: null))
-        {
-            return false;
-        }
-        return ReferenceEquals(left, objB: null) || left.Equals(right);
-    }
-
-    protected static bool NotEqualOperator(ValueObject left, ValueObject right)
-    {
-        return !(EqualOperator(left, right));
-    }
-
-    protected abstract IEnumerable<object> GetEqualityComponents();
-
+    /// <summary>
+    /// Overrides the base method to use the derived class'
+    /// <see cref="EqualsCore"/> method.
+    /// </summary>
     public override bool Equals(object? obj)
     {
-        if (obj is null || obj.GetType() != GetType())
-        {
-            return false;
-        }
-
-        var other = (ValueObject)obj;
-
-        return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        return obj is T valueObject && this.EqualsCore(valueObject);
     }
 
+    /// <summary>
+    /// Equality method to be implemented in the derived class.
+    /// </summary>
+    protected abstract bool EqualsCore(T other);
+
+    /// <summary>
+    /// Override the base method to the the derived class'
+    /// <see cref="GetHashCodeCore"/> method.
+    /// </summary>
     public override int GetHashCode()
     {
-        return GetEqualityComponents()
-            .Select(x => x.GetHashCode())
-            .Aggregate((x, y) => x ^ y);
+        return this.GetHashCodeCore();
+    }
+
+    /// <summary>
+    /// Hashcode method to be implemented in the derived class.
+    /// </summary>
+    /// <returns></returns>
+    protected abstract int GetHashCodeCore();
+    
+    /// <summary>
+    /// Implements the <c>==</c> operator.
+    /// </summary>
+    public static bool operator ==(ValueObject<T>? a, ValueObject<T>? b)
+    {
+        return a is null && b is null || a is not null && b is not null && a.Equals(b);
+    }
+
+    /// <summary>
+    /// Implements the <c>!=</c> operator.
+    /// </summary>
+    public static bool operator !=(ValueObject<T> a, ValueObject<T> b)
+    {
+        return !(a == b);
     }
 }

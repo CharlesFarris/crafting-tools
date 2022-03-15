@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CraftingTools.Shared\CraftingTools.Shared.csproj"/>
+        <ProjectReference Include="..\CraftingTools.Shared\CraftingTools.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MySql.Data" Version="8.0.28" />
     </ItemGroup>
 
 </Project>

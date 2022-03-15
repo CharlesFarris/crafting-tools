@@ -13,7 +13,7 @@ public static class Connect
             connection = new MySqlConnection(connectionString);
             connection.Open();
 
-            var command = new MySqlCommand("create database test_DB", connection);
+            var command = new MySqlCommand(cmdText: "create database test_DB", connection);
             command.ExecuteNonQuery();
         }
         finally
@@ -21,5 +21,4 @@ public static class Connect
             connection?.Close();
         }
     }
-    
 }

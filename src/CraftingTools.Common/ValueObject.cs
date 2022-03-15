@@ -1,4 +1,4 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
 
 /// <summary>
 /// Value object base class derived from V. Khorikov's <c>ValueObject</c> class

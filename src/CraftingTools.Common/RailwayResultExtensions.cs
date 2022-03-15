@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace CraftingTools.Shared;
+namespace CraftingTools.Common;
 
 /// <summary>
 /// Extension methods for the <see cref="RailwayResult{TValue}"/> class.

@@ -1,16 +1,16 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace CraftingTools.Shared.Test;
+namespace CraftingTools.Common.Test;
 
 /// <summary>
-/// Test for the <see cref="ErrorExtensions"/> class.
+/// Test for the <see cref="RailwayErrorExtensions"/> class.
 /// </summary>
-internal static class ErrorExtensionsTests
+internal static class RailwayErrorExtensionsTests
 {
     /// <summary>
     /// Validates the behavior of the extension method used
-    /// to create an <see cref="Error"/> instance from an
+    /// to create an <see cref="RailwayError"/> instance from an
     /// exception.
     /// </summary>
     [Test]
@@ -18,7 +18,7 @@ internal static class ErrorExtensionsTests
     {
         // use case: wrap non-null exception with default error message
         {
-            var exception = new Exception(message: "exception message");
+            var exception = new InvalidOperationException(message: "exception message");
             var error = exception.ToError();
             Assert.That(error.Message, Is.EqualTo(exception.Message));
             Assert.That(error.Exception, Is.EqualTo(exception));
@@ -26,7 +26,7 @@ internal static class ErrorExtensionsTests
 
         // use case: wrap non-null exception with an supplied error message
         {
-            var exception = new Exception(message: "exception message");
+            var exception = new InvalidOperationException(message: "exception message");
             var error = exception.ToError(message: "base message");
             Assert.That(error.Message, Is.EqualTo(expected: "base message"));
             Assert.That(error.Exception, Is.EqualTo(exception));

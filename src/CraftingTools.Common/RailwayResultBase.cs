@@ -1,4 +1,4 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
 
 /// <summary>
 /// Railway programming result base class.
@@ -9,7 +9,7 @@ public abstract class RailwayResultBase
     /// Constructor
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if the status parameter is <c>Unknown</c>.</exception>
-    protected RailwayResultBase(RailwayResultStatus status, Error error, string? id)
+    protected RailwayResultBase(RailwayResultStatus status, RailwayError error, string? id)
     {
         this.Status = status == RailwayResultStatus.Unknown
             ? throw new ArgumentOutOfRangeException(nameof(status))
@@ -36,7 +36,7 @@ public abstract class RailwayResultBase
     /// <summary>
     /// Gets the error instance.
     /// </summary>
-    public Error Error { get; }
+    public RailwayError Error { get; }
 
     /// <summary>
     /// Get the ID.

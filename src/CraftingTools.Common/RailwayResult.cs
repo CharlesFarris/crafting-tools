@@ -1,4 +1,6 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
+
+#pragma warning disable CA1000 // Do not declare static members on generic types
 
 /// <summary>
 /// Concrete implementation of the <see cref="RailwayResultBase"/>.
@@ -11,7 +13,7 @@ public class RailwayResult<TValue> : RailwayResultBase
     /// </summary>
     private RailwayResult(
         RailwayResultStatus status,
-        Error error,
+        RailwayError error,
         string? id,
         TValue? value)
         : base(status, error, id)
@@ -26,20 +28,20 @@ public class RailwayResult<TValue> : RailwayResultBase
     public TValue Unwrap() =>
         (this.Status == RailwayResultStatus.Success
             ? this.Value
-            : throw new InvalidOperationException(message: "Failure."))!; // suppress nullable warning 
+            : throw new InvalidOperationException(message: "Failure."))!; // suppress nullable warning
 
     /// <summary>
     /// Create an <see cref="RailwayResult{TValue}"/> instance for success.
     /// </summary>
     public static RailwayResult<TValue> Success(TValue value, string? id = default)
     {
-        return new RailwayResult<TValue>(RailwayResultStatus.Success, Error.Empty, id, value);
+        return new RailwayResult<TValue>(RailwayResultStatus.Success, RailwayError.Empty, id, value);
     }
 
     /// <summary>
     /// Creates a <see cref="RailwayResult{TValue}"/> instance for failure.
     /// </summary>
-    public static RailwayResult<TValue> Failure(Error error, string? id = default)
+    public static RailwayResult<TValue> Failure(RailwayError error, string? id = default)
     {
         return new RailwayResult<TValue>(RailwayResultStatus.Failure, error, id, value: default);
     }

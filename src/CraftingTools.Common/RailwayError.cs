@@ -1,9 +1,9 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
 
 /// <summary>
 /// Immutable container class for error information.
 /// </summary>
-public sealed class Error
+public sealed class RailwayError
 {
     /// <summary>
     /// Constructor.
@@ -11,11 +11,11 @@ public sealed class Error
     /// <remarks>
     /// Scoped as internal to prevent callers outside the assembly from
     /// directly instantiating instance.  All instantiation should be handle
-    /// from the extension methods in <see cref="ErrorExtensions"/>.
+    /// from the extension methods in <see cref="RailwayErrorExtensions"/>.
     /// </remarks>
-    internal Error(string? message, Exception? exception)
+    internal RailwayError(string? message, Exception? exception)
     {
-        this._message = message;
+        this._message = message.ToSafeString();
         this.Exception = exception;
     }
 
@@ -23,7 +23,7 @@ public sealed class Error
     /// Gets the message associated with the error.  If the message
     /// field is not null or empty, the message field is returned.  If
     /// the exception is not null, the exception message is returned.  Otherwise
-    /// an empty string is returned. 
+    /// an empty string is returned.
     /// </summary>
     public string Message =>
         string.IsNullOrEmpty(this._message)
@@ -37,7 +37,7 @@ public sealed class Error
     /// </summary>
     public Exception? Exception { get; }
 
-    public static readonly Error Empty = new(string.Empty, exception: null);
+    public static readonly RailwayError Empty = new(string.Empty, exception: null);
 
-    private readonly string? _message;
+    private readonly string _message;
 }

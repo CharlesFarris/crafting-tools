@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using NUnit.Framework;
 
-namespace CraftingTools.Shared.Test;
+namespace CraftingTools.Common.Test;
 
 /// <summary>
 /// Tests for <see cref="RailwayResultExtensions"/> class.
@@ -25,7 +25,7 @@ internal static class RailwayResultExtensionsTests
 
     /// <summary>
     /// Validates the <c>ToResultIsNotNullOrEmpty</c> returns back the correct
-    /// failure result if the string is null or empty.  
+    /// failure result if the string is null or empty.
     /// </summary>
     [TestCase(arguments: null, ExpectedResult = "Failure|message", TestName = "null_value")]
     [TestCase(arg: "", ExpectedResult = "Failure|message", TestName = "empty_value")]
@@ -41,7 +41,7 @@ internal static class RailwayResultExtensionsTests
 
     /// <summary>
     /// Validates the <c>ToResultIsNotNullOrEmpty</c> returns back the correct
-    /// failure result if the string is null, empty, or whitespace.  
+    /// failure result if the string is null, empty, or whitespace.
     /// </summary>
     [TestCase(arguments: null, ExpectedResult = "Failure|message", TestName = "null_value")]
     [TestCase(arg: "", ExpectedResult = "Failure|message", TestName = "empty_value")]
@@ -82,7 +82,7 @@ internal static class RailwayResultExtensionsTests
 
         // use case: failure result
         {
-            var inResult = RailwayResult<object>.Failure(Error.Empty, id: "in_id");
+            var inResult = RailwayResult<object>.Failure(RailwayError.Empty, id: "in_id");
             var outResult = inResult.Check(_ => true, failureMessage: "message", id: "id");
             Assert.That(outResult, Is.EqualTo(inResult));
         }
@@ -177,7 +177,7 @@ internal static class RailwayResultExtensionsTests
         // use case: failure result
         {
             var failures = ImmutableList<RailwayResultBase>.Empty;
-            var inResult = RailwayResult<object>.Failure(Error.Empty);
+            var inResult = RailwayResult<object>.Failure(RailwayError.Empty);
             var unwrapped = inResult.UnwrapOrAddToFailuresImmutable(ref failures);
             Assert.That(unwrapped, Is.Null);
             Assert.That(failures.Count, Is.EqualTo(expected: 1));
@@ -237,7 +237,7 @@ internal static class RailwayResultExtensionsTests
 
         // use case: invalid value type
         {
-            var result = new Exception().As<decimal>(id: "id");
+            var result = new InvalidOperationException().As<decimal>(id: "id");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
             Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to convert to decimal."));

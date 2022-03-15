@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace CraftingTools.Shared;
+namespace CraftingTools.Common;
 
 /// <summary>
 /// Custom exception used to consolidate multiple railway

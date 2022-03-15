@@ -1,4 +1,4 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
 
 /// <summary>
 /// Entity base class derived from V. Khorikov's <c>Entity</c> class

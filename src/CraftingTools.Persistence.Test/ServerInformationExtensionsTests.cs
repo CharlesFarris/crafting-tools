@@ -5,5 +5,4 @@
 /// </summary>
 internal static class ServerInformationExtensionsTests
 {
-    
 }

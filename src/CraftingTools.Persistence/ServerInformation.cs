@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+using CraftingTools.Common;
 
 namespace CraftingTools.Persistence;
 
@@ -18,13 +18,13 @@ public sealed class ServerInformation : ValueObject<ServerInformation>
         this.UserId = userId;
         this.Password = password;
     }
-    
+
     public string Host { get; }
-    
+
     public int Port { get; }
-    
+
     public string UserId { get; }
-    
+
     public string Password { get; }
 
     public static readonly ServerInformation None = new(string.Empty, port: 0, string.Empty, string.Empty);
@@ -33,10 +33,10 @@ public sealed class ServerInformation : ValueObject<ServerInformation>
     /// Factory method for creating a <see cref="ServerInformation"/> instance.
     /// </summary>
     public static RailwayResult<ServerInformation> FromParameter(
-        string? host, 
-        int port, 
-        string? userId, 
-        string? password, 
+        string? host,
+        int port,
+        string? userId,
+        string? password,
         string? resultId = default)
     {
         var failures = ImmutableList<RailwayResultBase>.Empty;
@@ -47,7 +47,8 @@ public sealed class ServerInformation : ValueObject<ServerInformation>
 
         var validPort = port
             .ToResult(nameof(port))
-            .Check(value => value is >= 0 and <= 65535, failureMessage: "Port must be between 0 and 65535.", nameof(port))
+            .Check(value => value is >= 0 and <= 65535, failureMessage: "Port must be between 0 and 65535.",
+                nameof(port))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validUserId = userId
@@ -60,10 +61,10 @@ public sealed class ServerInformation : ValueObject<ServerInformation>
 
         return failures.IsEmpty
             ? RailwayResult<ServerInformation>.Success(
-                new ServerInformation(validHost, validPort, validUserId, validPassword), 
+                new ServerInformation(validHost, validPort, validUserId, validPassword),
                 resultId)
             : RailwayResult<ServerInformation>.Failure(
-                failures.ToError(message: "Unable to create server information."), 
+                failures.ToError(message: "Unable to create server information."),
                 resultId);
     }
 

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace CraftingTools.Shared.Test;
+namespace CraftingTools.Common.Test;
 
 /// <summary>
 /// Tests for the <see cref="Result"/> class.
@@ -19,7 +19,7 @@ internal static class RailwayResultTests
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
         Assert.That(result.Unwrap(), Is.EqualTo(value));
-        Assert.That(result.Error, Is.EqualTo(Error.Empty));
+        Assert.That(result.Error, Is.EqualTo(RailwayError.Empty));
     }
 
     /// <summary>

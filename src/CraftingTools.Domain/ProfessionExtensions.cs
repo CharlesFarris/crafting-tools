@@ -1,4 +1,4 @@
-﻿using CraftingTools.Shared;
+﻿using CraftingTools.Common;
 
 namespace CraftingTools.Domain;
 

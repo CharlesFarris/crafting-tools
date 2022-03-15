@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using NUnit.Framework;
 
-namespace CraftingTools.Shared.Test;
+namespace CraftingTools.Common.Test;
 
 /// <summary>
 /// Tests for <see cref="RailwayResultFailureException"/> class.
@@ -25,7 +25,7 @@ internal static class RailwayResultFailureExceptionTests
         // use case: valid parameters
         {
             var failures = ImmutableList<RailwayResultBase>.Empty
-                .Add(RailwayResult<object>.Failure(Error.Empty));
+                .Add(RailwayResult<object>.Failure(RailwayError.Empty));
             var exception = new RailwayResultFailureException(message: "message", failures);
             Assert.That(exception.Message, Is.EqualTo(expected: "message"));
             Assert.That(exception.Failures, Is.EqualTo(failures));

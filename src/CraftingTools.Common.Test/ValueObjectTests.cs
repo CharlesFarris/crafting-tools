@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 
-namespace CraftingTools.Shared.Test;
+namespace CraftingTools.Common.Test;
+
+#pragma warning disable CS1718 // Comparison made to same variable
 
 /// <summary>
 /// Tests for <see cref="ValueObject{T}"/> class.

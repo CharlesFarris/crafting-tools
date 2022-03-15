@@ -1,13 +1,15 @@
-﻿using CraftingTools.Shared;
+﻿using CraftingTools.Common;
 
 namespace CraftingTools.Persistence;
 
 public static class ServerInformationExtensions
 {
-    public static RailwayResult<ServerInformation> ParseConnectionString(string connectionString, string? resultId = default)
+    public static RailwayResult<ServerInformation> ParseConnectionString(string connectionString,
+        string? resultId = default)
     {
         return connectionString
-            .ToResultIsNotNullOrWhitespace(failureMessage: "Connection string cannot be empty.", nameof(connectionString))
+            .ToResultIsNotNullOrWhitespace(failureMessage: "Connection string cannot be empty.",
+                nameof(connectionString))
             .OnSuccess(value =>
             {
                 const string serverToken = "server=";
@@ -46,5 +48,4 @@ public static class ServerInformationExtensions
                 return ServerInformation.FromParameter(server, port, userId, password, resultId);
             });
     }
-
 }

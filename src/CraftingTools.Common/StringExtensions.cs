@@ -1,4 +1,4 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
 
 /// <summary>
 /// Extension methods for the <see cref="string"/> class.

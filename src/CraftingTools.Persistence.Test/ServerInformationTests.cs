@@ -1,4 +1,4 @@
-﻿using CraftingTools.Shared;
+﻿using CraftingTools.Common;
 using NUnit.Framework;
 
 namespace CraftingTools.Persistence.Test;

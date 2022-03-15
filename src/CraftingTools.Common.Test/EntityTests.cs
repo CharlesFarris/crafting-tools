@@ -1,7 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace CraftingTools.Shared.Test;
+#pragma warning disable CS1718 // Comparison made to same variable
+
+namespace CraftingTools.Common.Test;
 
 /// <summary>
 /// Tests for <see cref="Entity"/> class.

@@ -18,4 +18,5 @@ trim_trailing_whitespace = false
 indent_style = tab
 
 [*.cs]
-dotnet_analyzer_diagnostic.severity = warning
+dotnet_analyzer_diagnostic.severity = error
+dotnet_diagnostic.CA1303.severity = none # Do not pass literals as localized parameters: disabled because we don't need to support i18n just yet; https://docs.microsoft.com/visualstudio/code-quality/ca1033

@@ -1,4 +1,4 @@
-﻿namespace CraftingTools.Shared;
+﻿namespace CraftingTools.Common;
 
 public enum RailwayResultStatus
 {

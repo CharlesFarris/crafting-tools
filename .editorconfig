@@ -1,0 +1,23 @@
+# https://editorconfig.org/
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{config,json,jsonc,json5,csproj,props,yml,resx,xml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{sln,DotSettings,sql}]
+indent_style = tab
+
+[*.cs]
+dotnet_analyzer_diagnostic.severity = error
+dotnet_diagnostic.CA1000.severity = none # Do not declare static members on generic types
+dotnet_diagnostic.CA1303.severity = none # Do not pass literals as localized parameters: disabled because we don't need to support i18n just yet; https://docs.microsoft.com/visualstudio/code-quality/ca1033

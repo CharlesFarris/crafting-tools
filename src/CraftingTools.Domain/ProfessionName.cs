@@ -1,4 +1,6 @@
-﻿using CraftingTools.Shared;
+﻿using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -21,14 +23,15 @@ public class ProfessionName : ValueObject<ProfessionName>
 
     public string Value { get; }
 
-    public static readonly ProfessionName None = new(value: string.Empty);
+    public static readonly ProfessionName None = new(string.Empty);
 
-    public static RailwayResult<ProfessionName> FromParameters(string value, string? resultId = default)
+    public static Result<ProfessionName> FromParameters(string value, string? resultId = default)
     {
         return value
             .ToResultIsNotNullOrWhitespace(failureMessage: "Profession name cannot be empty.",
                 resultId)
-            .Check(validValue => validValue.Length <= 32, "Profession name cannot exceed 32 characters.")
+            .Check(validValue => validValue.Length <= 32,
+                failureMessage: "Profession name cannot exceed 32 characters.")
             .OnSuccess(validValue => new ProfessionName(validValue).ToResult(resultId));
     }
 }

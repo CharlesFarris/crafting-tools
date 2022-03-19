@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -21,24 +23,24 @@ public sealed class Recipe : Entity
 
     public ImmutableList<RecipeInput> Inputs { get; }
 
-    public static readonly Recipe None = new(id: Guid.Empty, Profession.None, RecipeOutput.None,
+    public static readonly Recipe None = new(Guid.Empty, Profession.None, RecipeOutput.None,
         ImmutableList<RecipeInput>.Empty);
 
     /// <summary>
     /// Factory method for creating a <see cref="Recipe"/> instance
     /// from the supplied parameters.
     /// </summary>
-    public static RailwayResult<Recipe> FromParameters(
+    public static Result<Recipe> FromParameters(
         Guid id,
         Profession profession,
         RecipeOutput? output,
         IEnumerable<RecipeInput?>? inputs,
         string? resultId = default)
     {
-        var failures = ImmutableList<RailwayResultBase>.Empty;
+        var failures = ImmutableList<ResultBase>.Empty;
 
         var validId = id
-            .ToValidResult(failureMessage: "Id cannot be empty.", nameof(id))
+            .ToResultNotEmpty(failureMessage: "Id cannot be empty.", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validProfession = profession
@@ -61,7 +63,7 @@ public sealed class Recipe : Entity
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<Recipe>.Success(new Recipe(validId, validProfession, validOutput, validInputs!), resultId)
-            : RailwayResult<Recipe>.Failure(failures.ToError(message: "Unable to create recipe."), resultId);
+            ? Result<Recipe>.Success(new Recipe(validId, validProfession, validOutput, validInputs!), resultId)
+            : Result<Recipe>.Failure(failures.ToError(message: "Unable to create recipe."), resultId);
     }
 }

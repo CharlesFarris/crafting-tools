@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+﻿using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -31,12 +32,12 @@ public sealed class ItemName : ValueObject<ItemName>
 
     public string Value { get; }
 
-    public static readonly ItemName None = new(value: string.Empty);
+    public static readonly ItemName None = new(string.Empty);
 
     /// <summary>
     /// Factory method for creating <see cref="ItemName"/> instances.
     /// </summary>
-    public static RailwayResult<ItemName> FromParameter(string? value, string? resultId = default)
+    public static Result<ItemName> FromParameter(string? value, string? resultId = default)
     {
         return value
             .ToResultIsNotNullOrWhitespace(failureMessage: "Item name cannot be empty.", resultId)

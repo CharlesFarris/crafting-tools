@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -20,21 +22,21 @@ public sealed class Item : Entity
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static RailwayResult<Item> FromParameters(Guid id, ItemName itemName, string? resultId = default)
+    public static Result<Item> FromParameters(Guid id, ItemName itemName, string? resultId = default)
     {
-        var failures = ImmutableList<RailwayResultBase>.Empty;
+        var failures = ImmutableList<ResultBase>.Empty;
 
         var validId = id
-            .ToValidResult("Id cannot be empty", nameof(id))
+            .ToResultNotEmpty(failureMessage: "Id cannot be empty", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validItemName = itemName
-            .ToResultIsNotNull("Item name cannot be null.", nameof(itemName))
+            .ToResultIsNotNull(failureMessage: "Item name cannot be null.", nameof(itemName))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<Item>.Success(new Item(validId, validItemName), resultId)
-            : RailwayResult<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
+            ? Result<Item>.Success(new Item(validId, validItemName), resultId)
+            : Result<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
     }
 
     // Name of the item.

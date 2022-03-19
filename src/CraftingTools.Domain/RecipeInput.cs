@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
-using CraftingTools.Shared;
+using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -39,13 +41,13 @@ public sealed class RecipeInput : ValueObject<RecipeInput>
     /// Factory method for creating a <see cref="RecipeInput"/> from the
     /// supplied parameters.
     /// </summary>
-    public static RailwayResult<RecipeInput> FromParameters(Item item, int count, string? resultId = default)
+    public static Result<RecipeInput> FromParameters(Item item, int count, string? resultId = default)
     {
-        var failures = ImmutableList<RailwayResultBase>.Empty;
+        var failures = ImmutableList<ResultBase>.Empty;
 
         var validItem = item
             .ToResultIsNotNull(failureMessage: "Item cannot be null.", nameof(item))
-            .Check(value => !object.ReferenceEquals(value, Item.None), failureMessage: "Item cannot be none.")
+            .Check(value => !ReferenceEquals(value, Item.None), failureMessage: "Item cannot be none.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validCount = count
@@ -54,7 +56,8 @@ public sealed class RecipeInput : ValueObject<RecipeInput>
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<RecipeInput>.Success(new RecipeInput(validItem, validCount), resultId)
-            : RailwayResult<RecipeInput>.Failure(failures.ToError("Unable to create recipe output."), resultId);
+            ? Result<RecipeInput>.Success(new RecipeInput(validItem, validCount), resultId)
+            : Result<RecipeInput>.Failure(failures.ToError(message: "Unable to create recipe output."),
+                resultId);
     }
 }

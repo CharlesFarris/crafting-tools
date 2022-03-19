@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -15,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CraftingTools.Shared\CraftingTools.Shared.csproj" />
+    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj" />
   </ItemGroup>
 
 </Project>

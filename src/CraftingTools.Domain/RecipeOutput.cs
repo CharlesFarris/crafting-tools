@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -45,9 +47,9 @@ public sealed class RecipeOutput : ValueObject<RecipeOutput>
     /// Factory method for creating a <see cref="RecipeOutput"/> instance
     /// from the supplied parameters.
     /// </summary>
-    public static RailwayResult<RecipeOutput> FromParameters(Item item, int count, string? resultId = default)
+    public static Result<RecipeOutput> FromParameters(Item item, int count, string? resultId = default)
     {
-        var failures = ImmutableList<RailwayResultBase>.Empty;
+        var failures = ImmutableList<ResultBase>.Empty;
 
         var validItem = item
             .ToResultIsNotNull(failureMessage: "Item cannot be null.", nameof(item))
@@ -60,8 +62,8 @@ public sealed class RecipeOutput : ValueObject<RecipeOutput>
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<RecipeOutput>.Success(new RecipeOutput(validItem, validCount), resultId)
-            : RailwayResult<RecipeOutput>.Failure(failures.ToError(message: "Unable to create recipe output."),
+            ? Result<RecipeOutput>.Success(new RecipeOutput(validItem, validCount), resultId)
+            : Result<RecipeOutput>.Failure(failures.ToError(message: "Unable to create recipe output."),
                 resultId);
     }
 }

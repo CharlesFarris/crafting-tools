@@ -1,4 +1,5 @@
 ﻿using CraftingTools.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -14,7 +15,7 @@ public sealed class InventoryManager
         return this._slots.GetValueOrDefault(item.Id);
     }
 
-    public RailwayResult<int> Add(Item item, int count)
+    public Result<int> Add(Item item, int count)
     {
         if (item is null)
         {
@@ -37,7 +38,7 @@ public sealed class InventoryManager
             });
     }
 
-    public RailwayResult<int> Remove(Item item, int count)
+    public Result<int> Remove(Item item, int count)
     {
         if (item is null)
         {
@@ -51,12 +52,12 @@ public sealed class InventoryManager
             {
                 if (!this._slots.TryGetValue(item.Id, out var existing) || count > existing)
                 {
-                    return RailwayResult<int>.Failure("Insufficient items in inventory.".ToError());
+                    return Result<int>.Failure("Insufficient items in inventory.".ToError());
                 }
 
                 var remaining = existing - count;
                 this._slots[item.Id] = existing - count;
-                return RailwayResult<int>.Success(remaining);
+                return Result<int>.Success(remaining);
             });
     }
 

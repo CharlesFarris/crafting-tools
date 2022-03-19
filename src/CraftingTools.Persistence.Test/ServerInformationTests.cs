@@ -1,5 +1,6 @@
 ﻿using CraftingTools.Common;
 using NUnit.Framework;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Persistence.Test;
 
@@ -22,11 +23,11 @@ internal static class ServerInformationTests
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to create server information."));
             Assert.That(result.Id, Is.EqualTo(expected: "invalid_parameters"));
-            var exception = result.Error.Exception as RailwayResultFailureException;
+            var exception = result.Error.Exception as ResultFailureException;
             Assert.That(exception, Is.Not.Null);
             Assert.That(exception!.Failures.Count, Is.EqualTo(expected: 4));
             var failure = exception.Failures[index: 0];
-            Assert.That(failure.Status, Is.EqualTo(RailwayResultStatus.Failure));
+            Assert.That(failure.Status, Is.EqualTo(ResultStatus.Failure));
         }
 
         // use case: valid parameters
@@ -37,7 +38,7 @@ internal static class ServerInformationTests
                 userId: "userId",
                 password: "password");
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
             var information = result.Unwrap();
             Assert.That(information, Is.Not.Null);
             Assert.That(information.Host, Is.EqualTo(expected: "host"));

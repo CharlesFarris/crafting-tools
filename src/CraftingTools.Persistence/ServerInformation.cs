@@ -1,10 +1,12 @@
 ﻿using System.Collections.Immutable;
 using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Persistence;
 
 /// <summary>
-/// Container class for a server connection. 
+/// Container class for a server connection.
 /// </summary>
 public sealed class ServerInformation : ValueObject<ServerInformation>
 {
@@ -32,14 +34,14 @@ public sealed class ServerInformation : ValueObject<ServerInformation>
     /// <summary>
     /// Factory method for creating a <see cref="ServerInformation"/> instance.
     /// </summary>
-    public static RailwayResult<ServerInformation> FromParameter(
+    public static Result<ServerInformation> FromParameter(
         string? host,
         int port,
         string? userId,
         string? password,
         string? resultId = default)
     {
-        var failures = ImmutableList<RailwayResultBase>.Empty;
+        var failures = ImmutableList<ResultBase>.Empty;
 
         var validHost = host
             .ToResultIsNotNullOrWhitespace(failureMessage: "Host cannot be empty.", nameof(host))
@@ -60,10 +62,10 @@ public sealed class ServerInformation : ValueObject<ServerInformation>
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<ServerInformation>.Success(
+            ? Result<ServerInformation>.Success(
                 new ServerInformation(validHost, validPort, validUserId, validPassword),
                 resultId)
-            : RailwayResult<ServerInformation>.Failure(
+            : Result<ServerInformation>.Failure(
                 failures.ToError(message: "Unable to create server information."),
                 resultId);
     }

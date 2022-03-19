@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Persistence;
 
@@ -26,12 +28,12 @@ public sealed class DatabaseInformation : ValueObject<DatabaseInformation>
     /// <summary>
     /// Factory method for creating a <see cref="DatabaseInformation"/> instance.
     /// </summary>
-    public static RailwayResult<DatabaseInformation> FromParameters(
+    public static Result<DatabaseInformation> FromParameters(
         ServerInformation serverInformation,
         string databaseName,
         string? resultId = default)
     {
-        var failures = ImmutableList<RailwayResultBase>.Empty;
+        var failures = ImmutableList<ResultBase>.Empty;
 
         var validServiceInformation = serverInformation
             .ToResultIsNotNull(failureMessage: "Server information cannot be null.", nameof(serverInformation))
@@ -42,9 +44,9 @@ public sealed class DatabaseInformation : ValueObject<DatabaseInformation>
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? RailwayResult<DatabaseInformation>.Success(
+            ? Result<DatabaseInformation>.Success(
                 new DatabaseInformation(validServiceInformation, validDatabaseName), resultId)
-            : RailwayResult<DatabaseInformation>.Failure("Unable to create database information.".ToError(), resultId);
+            : Result<DatabaseInformation>.Failure("Unable to create database information.".ToError(), resultId);
     }
 
     /// <inheritdoc cref="ValueObject{T}"/>

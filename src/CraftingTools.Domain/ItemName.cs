@@ -1,4 +1,6 @@
 ﻿using CraftingTools.Common;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -35,7 +37,7 @@ public sealed class ItemName : ValueObject<ItemName>
     /// <summary>
     /// Factory method for creating <see cref="ItemName"/> instances.
     /// </summary>
-    public static RailwayResult<ItemName> FromParameter(string? value, string? resultId = default)
+    public static Result<ItemName> FromParameter(string? value, string? resultId = default)
     {
         return value
             .ToResultIsNotNullOrWhitespace(failureMessage: "Item name cannot be empty.", resultId)

@@ -1,10 +1,11 @@
 ﻿using CraftingTools.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Persistence;
 
 public static class ServerInformationExtensions
 {
-    public static RailwayResult<ServerInformation> ParseConnectionString(string connectionString,
+    public static Result<ServerInformation> ParseConnectionString(string connectionString,
         string? resultId = default)
     {
         return connectionString

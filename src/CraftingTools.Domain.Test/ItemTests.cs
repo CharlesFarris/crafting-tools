@@ -1,6 +1,7 @@
 ﻿using System;
 using CraftingTools.Common;
 using NUnit.Framework;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain.Test;
 
@@ -22,7 +23,7 @@ internal static class ItemTests
             var itemName = ItemName.FromParameter(value: "name").Unwrap();
             var result = Item.FromParameters(id, itemName, resultId: "resultId");
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Success));
+            Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
             Assert.That(result.Id, Is.EqualTo(expected: "resultId"));
             var item = result.Unwrap();
             Assert.That(item.Id, Is.EqualTo(id));
@@ -34,7 +35,7 @@ internal static class ItemTests
             var itemName = ItemName.FromParameter(value: "name").Unwrap();
             var result = Item.FromParameters(Guid.Empty, itemName, resultId: "resultId");
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Status, Is.EqualTo(RailwayResultStatus.Failure));
+            Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
             Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to create item."));
             Assert.That(result.Id, Is.EqualTo(expected: "resultId"));
         }

@@ -48,7 +48,7 @@ public sealed class InventoryManager
         return count
             .ToResult(nameof(count))
             .Check(value => value > 0, failureMessage: "Count must be positive.")
-            .OnSuccess(validCount =>
+            .OnSuccess<int, int>(validCount =>
             {
                 if (!this._slots.TryGetValue(item.Id, out var existing) || count > existing)
                 {

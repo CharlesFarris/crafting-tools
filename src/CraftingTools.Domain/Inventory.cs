@@ -1,29 +1,32 @@
 ﻿using System.Collections.Immutable;
+using SleepingBearSystems.Common;
+using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
 public sealed class Inventory
 {
-    private Inventory(ImmutableList<(Item, int)> slots)
+    private Inventory(ImmutableList<InventorySlot> slots)
     {
         this.Slots = slots;
     }
 
-    public ImmutableList<(Item, int)> Slots { get; }
+    public ImmutableList<InventorySlot> Slots { get; }
 
-    public static readonly Inventory Empty = new(ImmutableList<(Item, int)>.Empty);
+    public static readonly Inventory Empty = new(ImmutableList<InventorySlot>.Empty);
 
-    public static Inventory From(IEnumerable<(Item, int)>? slots)
+    public static Result<Inventory> From(IEnumerable<InventorySlot>? slots, string? resultId = default)
     {
         if (slots is null)
         {
-            return Inventory.Empty;
+            return Inventory.Empty.ToResult(resultId);
         }
 
         var validSlots = slots
-            .GroupBy(tuple => tuple.Item1.Id)
-            .Select(group => (group.First().Item1, group.Sum(slot => Math.Max(slot.Item2, val2: 0))))
+            .GroupBy(slot => slot.Item.Id)
+            .Select(group =>
+                InventorySlot.FromParameters(group.First().Item, group.Sum(slot => slot.Count)).Unwrap())
             .ToImmutableList();
-        return new Inventory(validSlots);
+        return new Inventory(validSlots).ToResult(resultId);
     }
 }

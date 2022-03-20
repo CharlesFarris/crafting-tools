@@ -27,7 +27,7 @@ public sealed class Item : Entity
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static Result<Item> FromPrimitives(Guid id, string? name, string? resultId = default)
+    public static Result<Item> FromParameters(Guid id, string name, string? resultId = default)
     {
         var failures = ImmutableList<ResultBase>.Empty;
 
@@ -51,7 +51,7 @@ public sealed class Item : Entity
     {
         return poco is null
             ? Result<Item>.Success(Item.None, resultId)
-            : Item.FromPrimitives(poco.Id, poco.Name, resultId);
+            : Item.FromParameters(poco.Id, poco.Name, resultId);
     }
 
 }

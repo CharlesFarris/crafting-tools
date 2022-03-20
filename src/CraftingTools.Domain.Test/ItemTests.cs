@@ -11,16 +11,16 @@ namespace CraftingTools.Domain.Test;
 internal static class ItemTests
 {
     /// <summary>
-    /// Validates the behavior of the <c>FromPrimitives</c> factory
+    /// Validates the behavior of the <c>FromParameters</c> factory
     /// method.
     /// </summary>
     [Test]
-    public static void FromPrimitives_ValidatesBehavior()
+    public static void FromParametes_ValidatesBehavior()
     {
         // use case: valid construction
         {
             var id = new Guid(g: "5E226140-DF07-47A8-B290-21F5B7E581B6");
-            var result = Item.FromPrimitives(id, name: "name", resultId: "resultId");
+            var result = Item.FromParameters(id, name: "name", resultId: "resultId");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
             Assert.That(result.Id, Is.EqualTo(expected: "resultId"));
@@ -31,7 +31,7 @@ internal static class ItemTests
 
         // use case: invalid ID
         {
-            var result = Item.FromPrimitives(Guid.Empty, name: "name", resultId: "resultId");
+            var result = Item.FromParameters(Guid.Empty, name: "name", resultId: "resultId");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
             Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to create item."));
@@ -39,6 +39,9 @@ internal static class ItemTests
         }
     }
 
+    /// <summary>
+    /// Validates the behavior of the <c>FromPoco</c> method.
+    /// </summary>
     [Test]
     public static void FromPoco_ValidatesBehavior()
     {

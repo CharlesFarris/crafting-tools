@@ -19,6 +19,11 @@ public sealed class Item : Entity
         this.Name = name;
     }
 
+    // Name of the item.
+    public ItemName Name { get; }
+
+    public static readonly Item None = new(Guid.Empty, ItemName.None);
+
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
@@ -39,8 +44,15 @@ public sealed class Item : Entity
             : Result<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
     }
 
-    // Name of the item.
-    public ItemName Name { get; }
+    /// <summary>
+    /// Converts a <see cref="ItemPoco"/> instance into a <see cref="Item"/> instance.
+    /// </summary>
+    public static Result<Item> FromPoco(ItemPoco? poco, string? resultId = default)
+    {
+        return poco is null
+            ? Result<Item>.Success(Item.None, resultId)
+            : ItemName.FromParameter(poco.Name, resultId)
+                .OnSuccess(name => { return Item.FromParameters(poco.Id, name, resultId); });
+    }
 
-    public static readonly Item None = new(Guid.Empty, ItemName.None);
 }

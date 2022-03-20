@@ -25,7 +25,7 @@ public class ProfessionName : ValueObject<ProfessionName>
 
     public static readonly ProfessionName None = new(string.Empty);
 
-    public static Result<ProfessionName> FromParameters(string value, string? resultId = default)
+    public static Result<ProfessionName> FromParameters(string? value, string? resultId = default)
     {
         return value
             .ToResultIsNotNullOrWhitespace(failureMessage: "Profession name cannot be empty.",

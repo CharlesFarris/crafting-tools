@@ -1,4 +1,5 @@
-﻿using CraftingTools.Common;
+﻿using System.Reflection.Emit;
+using CraftingTools.Common;
 using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
@@ -17,5 +18,17 @@ public static class ItemExtensions
         return item
             .ToResultIsNotNull(failureMessage: "Item cannot be null", resultId)
             .Check(value => value != Item.None, failureMessage: "Item cannot be none.");
+    }
+
+    /// <summary>
+    /// Converts a <see cref="Item"/> instance into a <see cref="ItemPoco"/> instance.
+    /// </summary>
+    public static ItemPoco ToPoco(this Item? item)
+    {
+        return new ItemPoco()
+        {
+            Id = item?.Id ?? Guid.Empty,
+            Name = item?.Name.Value ?? string.Empty
+        };
     }
 }

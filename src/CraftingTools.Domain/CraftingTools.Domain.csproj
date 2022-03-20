@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj"/>
+    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj" />
   </ItemGroup>
 
 </Project>

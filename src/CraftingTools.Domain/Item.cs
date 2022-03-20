@@ -27,7 +27,7 @@ public sealed class Item : Entity
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static Result<Item> FromParameters(Guid id, ItemName itemName, string? resultId = default)
+    public static Result<Item> FromPrimitives(Guid id, string? name, string? resultId = default)
     {
         var failures = ImmutableList<ResultBase>.Empty;
 
@@ -35,12 +35,12 @@ public sealed class Item : Entity
             .ToResultNotEmpty(failureMessage: "Id cannot be empty", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
-        var validItemName = itemName
-            .ToResultIsNotNull(failureMessage: "Item name cannot be null.", nameof(itemName))
+        var validName = ItemName
+            .FromParameter(name, nameof(name))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? Result<Item>.Success(new Item(validId, validItemName), resultId)
+            ? Result<Item>.Success(new Item(validId, validName), resultId)
             : Result<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
     }
 
@@ -51,8 +51,7 @@ public sealed class Item : Entity
     {
         return poco is null
             ? Result<Item>.Success(Item.None, resultId)
-            : ItemName.FromParameter(poco.Name, resultId)
-                .OnSuccess(name => { return Item.FromParameters(poco.Id, name, resultId); });
+            : Item.FromPrimitives(poco.Id, poco.Name, resultId);
     }
 
 }

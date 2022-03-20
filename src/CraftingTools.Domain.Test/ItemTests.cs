@@ -84,9 +84,9 @@ internal static class ItemTests
                 result.CollectFailureResults(),
                 Is.EqualTo(new[]
                 {
-                    "item: 'Unable to create item.'",
-                    "  id: 'Id cannot be empty'",
-                    "  name: 'Item name cannot be empty.'",
+                    "item: Unable to create item.",
+                    "  id: Id cannot be empty.",
+                    "  name: Item name cannot be empty.",
                 }),
                 result.JoinCollectFailureResults(Environment.NewLine));
         }

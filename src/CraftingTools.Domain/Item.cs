@@ -32,7 +32,7 @@ public sealed class Item : Entity
         var failures = ImmutableList<ResultBase>.Empty;
 
         var validId = id
-            .ToResultNotEmpty(failureMessage: "Id cannot be empty", nameof(id))
+            .ToResultNotEmpty(failureMessage: "Id cannot be empty.", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validName = ItemName

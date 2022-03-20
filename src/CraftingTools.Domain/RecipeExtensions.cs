@@ -86,7 +86,7 @@ public static class RecipeExtensions
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validItem = item
-            .ToValidResult(nameof(item))
+            .ToResultValid(nameof(item))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         if (!failures.IsEmpty)

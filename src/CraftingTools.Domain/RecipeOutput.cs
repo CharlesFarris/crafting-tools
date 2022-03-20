@@ -52,8 +52,7 @@ public sealed class RecipeOutput : ValueObject<RecipeOutput>
         var failures = ImmutableList<ResultBase>.Empty;
 
         var validItem = item
-            .ToResultIsNotNull(failureMessage: "Item cannot be null.", nameof(item))
-            .Check(value => !ReferenceEquals(value, Item.None), failureMessage: "Item cannot be none.")
+            .ToResultValid(nameof(item))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validCount = count

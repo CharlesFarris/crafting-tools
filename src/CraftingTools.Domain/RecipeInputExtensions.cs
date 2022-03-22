@@ -31,4 +31,39 @@ public static class RecipeInputExtensions
     {
         return RecipeInput.FromParameters(item, count, resultId);
     }
+
+    /// <summary>
+    /// Converts a <see cref="RecipeInputPoco"/> instance into a <see cref="RecipeInput"/>
+    /// instance.
+    /// </summary>
+    public static Result<RecipeInput> FromPoco(this RecipeInputPoco? poco, IItemRepository itemRepository, string? resultId = default)
+    {
+        if (itemRepository is null)
+        {
+            throw new ArgumentNullException(nameof(itemRepository));
+        }
+
+        return poco is null
+            ? RecipeInput.None
+                .ToResult(resultId)
+            : itemRepository
+                .GetItemById(poco.ItemId)
+                .ToResult(resultId)
+                .Check(maybe => maybe.HasValue, failureMessage: "Item not found.")
+                .Transform(maybe => maybe.Unwrap())
+                .OnSuccess(item => RecipeInput.FromParameters(item, poco.Count), resultId);
+    }
+
+    /// <summary>
+    /// Converts a <see cref="RecipeInput"/> instance into a
+    /// <see cref="RecipeInputPoco"/> instance.
+    /// </summary>
+    public static RecipeInputPoco ToPoco(this RecipeInput? input)
+    {
+        return new RecipeInputPoco
+        {
+            ItemId = input?.Item.Id ?? Guid.Empty,
+            Count = input?.Count ?? 0
+        };
+    }
 }

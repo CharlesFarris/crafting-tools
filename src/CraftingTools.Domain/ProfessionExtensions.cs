@@ -18,4 +18,13 @@ public static class ProfessionExtensions
             .ToResultIsNotNull(failureMessage: "Profession cannot be null", resultId)
             .Check(value => value != Profession.None, failureMessage: "Profession cannot be none.");
     }
+
+    public static Result<Profession> FromPoco(this ProfessionPoco? poco, string? resultId = default)
+    {
+        return poco is null
+            ? Profession.None.ToResult(resultId)
+            : ProfessionName
+                .FromParameters(poco.Name, resultId)
+                .OnSuccess(professionName => Profession.FromParameters(poco.Id, professionName));
+    }
 }

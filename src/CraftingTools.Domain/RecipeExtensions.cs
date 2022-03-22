@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using CraftingTools.Common;
 using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
@@ -86,7 +85,7 @@ public static class RecipeExtensions
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validItem = item
-            .ToValidResult(nameof(item))
+            .ToResultValid(nameof(item))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         if (!failures.IsEmpty)

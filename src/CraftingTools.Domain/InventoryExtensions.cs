@@ -19,7 +19,7 @@ internal static class InventoryExtensions
 
         return right is null || right == Inventory.Empty || right.Slots.IsEmpty
             ? left.ToResult(resultId)
-            : Inventory.From(left.Slots.Concat(right.Slots), resultId);
+            : Inventory.FromParameters(left.Slots.Concat(right.Slots), resultId);
     }
 
     /// <summary>
@@ -35,6 +35,6 @@ internal static class InventoryExtensions
         var validSlots = left.Slots.RemoveAll(slot => slot.Count == 0);
         return validSlots.Count == left.Slots.Count
             ? left.ToResult(resultId)
-            : Inventory.From(validSlots, resultId);
+            : Inventory.FromParameters(validSlots, resultId);
     }
 }

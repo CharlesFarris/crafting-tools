@@ -30,7 +30,7 @@ public sealed class InventorySlot
     /// Factory method for creating an <see cref="InventorySlot"/> instance.
     /// </summary>
     public static Result<InventorySlot> FromParameters(
-        Item item,
+        Item? item,
         int count,
         string? resultId = default)
     {
@@ -42,7 +42,7 @@ public sealed class InventorySlot
 
         var validCount = count
             .ToResult(nameof(count))
-            .Check(value => value > 0, failureMessage: "Count must greater than or equal to 0.")
+            .Check(value => value > 0, failureMessage: "Count must greater than 0.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty

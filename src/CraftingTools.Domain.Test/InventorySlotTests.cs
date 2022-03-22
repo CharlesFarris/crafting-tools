@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
+using Serilog;
+using Serilog.Core;
 using SleepingBearSystems.Railway;
+using SleepingBearSystems.Testing;
 
 namespace CraftingTools.Domain.Test;
 
@@ -15,22 +19,19 @@ internal static class InventorySlotTests
     [Test]
     public static void FromParameters_ValidatesBehavior()
     {
+        var log = new List<string>();
+        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+
+        // local method for writing an inventory slot to the logger
+        static void LogInventorySlot(ILogger localLogger, InventorySlot localSlot)
+        {
+            localLogger.Information(messageTemplate: "{Item} x {Count}", localSlot.Item.Name.Value, localSlot.Count);
+        }
+
         // use case: invalid parameters
         {
-#pragma warning disable CS8625
-            var result = InventorySlot.FromParameters(item: default, count: -1, resultId: "slot");
-#pragma warning restore CS8625
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
-            CollectionAssert.AreEqual(
-                new[]
-                {
-                    "slot: Unable to create inventory slot.",
-                    "  item: Item cannot be null",
-                    "  count: Count must greater than or equal to 0."
-                },
-                result.CollectFailureResults(),
-                result.JoinCollectFailureResults(Environment.NewLine));
+            var result = InventorySlot.FromParameters(item: default, count: 0, resultId: "invalid_slot");
+            result.LogResult(logger, LogInventorySlot);
         }
 
         // use case: valid parameters
@@ -38,13 +39,21 @@ internal static class InventorySlotTests
             var item = Item
                 .FromParameters(new Guid(g: "BCAA7FD8-99A6-4CA9-BD45-53288A96B32B"), name: "item")
                 .Unwrap();
-            var result = InventorySlot.FromParameters(item, count: 123, resultId: "slot");
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
-            Assert.That(result.Id, Is.EqualTo(expected: "slot"));
-            var slot = result.Unwrap();
-            Assert.That(slot.Item, Is.EqualTo(item));
-            Assert.That(slot.Count, Is.EqualTo(expected: 123));
+            var result = InventorySlot.FromParameters(item, count: 123, resultId: "valid_slot");
+            result.LogResult(logger, LogInventorySlot);
         }
+
+        CollectionAssert.AreEqual(
+            new[]
+            {
+                "[INF] invalid_slot: \"Failure\" <s:>",
+                "[INF] Unable to create inventory slot. <s:>",
+                "SleepingBearSystems.Railway.ResultFailureException: Unable to create inventory slot.",
+
+                "[INF] valid_slot: \"Success\" <s:>",
+                "[INF] item x 123 <s:>",
+            },
+            log,
+            string.Join(Environment.NewLine, log));
     }
 }

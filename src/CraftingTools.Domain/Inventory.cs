@@ -1,9 +1,12 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystems.Common;
 using SleepingBearSystems.Railway;
 
 namespace CraftingTools.Domain;
 
+/// <summary>
+/// Immutable container class for handling item
+/// inventories.
+/// </summary>
 public sealed class Inventory
 {
     private Inventory(ImmutableList<InventorySlot> slots)
@@ -15,7 +18,7 @@ public sealed class Inventory
 
     public static readonly Inventory Empty = new(ImmutableList<InventorySlot>.Empty);
 
-    public static Result<Inventory> From(IEnumerable<InventorySlot>? slots, string? resultId = default)
+    public static Result<Inventory> FromParameters(IEnumerable<InventorySlot?>? slots, string? resultId = default)
     {
         if (slots is null)
         {
@@ -23,9 +26,10 @@ public sealed class Inventory
         }
 
         var validSlots = slots
-            .GroupBy(slot => slot.Item.Id)
+            .Where(slot => slot is not null && slot != InventorySlot.Empty)
+            .GroupBy(slot => slot!.Item.Id)
             .Select(group =>
-                InventorySlot.FromParameters(group.First().Item, group.Sum(slot => slot.Count)).Unwrap())
+                InventorySlot.FromParameters(group.First()!.Item, group.Sum(slot => slot!.Count)).Unwrap())
             .ToImmutableList();
         return new Inventory(validSlots).ToResult(resultId);
     }

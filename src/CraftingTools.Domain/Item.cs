@@ -27,7 +27,7 @@ public sealed class Item : Entity
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static Result<Item> FromParameters(Guid id, string name, string? resultId = default)
+    public static Result<Item> FromParameters(Guid id, string? name, string? resultId = default)
     {
         var failures = ImmutableList<ResultBase>.Empty;
 

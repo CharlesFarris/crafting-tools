@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using CraftingTools.Common;
 using SleepingBearSystems.Common;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -53,5 +53,4 @@ public sealed class Item : Entity
             ? Result<Item>.Success(Item.None, resultId)
             : Item.FromParameters(poco.Id, poco.Name, resultId);
     }
-
 }

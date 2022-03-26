@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SleepingBearSystems.Common" Version="0.1.3" />
-    <PackageReference Include="SleepingBearSystems.Railway" Version="0.1.4" />
+    <PackageReference Include="SleepingBearSystems.Tools.Common" Version="0.2.1.7"/>
+    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.7"/>
   </ItemGroup>
 
 </Project>

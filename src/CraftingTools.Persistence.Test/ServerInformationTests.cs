@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
-using SleepingBearSystems.Railway;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
+using SleepingBearSystems.Tools.Railway;
+using SleepingBearSystems.Tools.Testing;
 
 namespace CraftingTools.Persistence.Test;
 
@@ -11,6 +13,9 @@ internal static class ServerInformationTests
     [Test]
     public static void FromParameters_ValidateBehavior()
     {
+        var log = new List<string>();
+        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+
         // use case: invalid parameters
         {
             var result = ServerInformation.FromParameter(
@@ -19,14 +24,7 @@ internal static class ServerInformationTests
                 userId: null,
                 password: null,
                 resultId: "invalid_parameters");
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to create server information."));
-            Assert.That(result.Id, Is.EqualTo(expected: "invalid_parameters"));
-            var exception = result.Error.Exception as ResultFailureException;
-            Assert.That(exception, Is.Not.Null);
-            Assert.That(exception!.Failures.Count, Is.EqualTo(expected: 4));
-            var failure = exception.Failures[index: 0];
-            Assert.That(failure.Status, Is.EqualTo(ResultStatus.Failure));
+            result.LogResult(logger, (localLogger, localInformation) => { });
         }
 
         // use case: valid parameters

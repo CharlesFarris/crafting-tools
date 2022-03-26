@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj" />
+    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.7"/>
   </ItemGroup>
 
 </Project>

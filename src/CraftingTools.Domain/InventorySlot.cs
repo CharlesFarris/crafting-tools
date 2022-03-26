@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -24,7 +24,7 @@ public sealed class InventorySlot
 
     public int Count { get; }
 
-    public static readonly InventorySlot Empty = new InventorySlot(Item.None, count: 0);
+    public static readonly InventorySlot Empty = new(Item.None, count: 0);
 
     /// <summary>
     /// Factory method for creating an <see cref="InventorySlot"/> instance.

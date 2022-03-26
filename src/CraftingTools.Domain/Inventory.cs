@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Domain;
 

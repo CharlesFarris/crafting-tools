@@ -1,5 +1,5 @@
 ﻿using CraftingTools.Common;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -36,7 +36,8 @@ public static class RecipeInputExtensions
     /// Converts a <see cref="RecipeInputPoco"/> instance into a <see cref="RecipeInput"/>
     /// instance.
     /// </summary>
-    public static Result<RecipeInput> FromPoco(this RecipeInputPoco? poco, IItemRepository itemRepository, string? resultId = default)
+    public static Result<RecipeInput> FromPoco(this RecipeInputPoco? poco, IItemRepository itemRepository,
+        string? resultId = default)
     {
         if (itemRepository is null)
         {

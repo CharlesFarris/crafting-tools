@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 using SleepingBearSystems.Common;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Persistence;
 

@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using Serilog;
-using Serilog.Core;
-using SleepingBearSystems.Railway;
-using SleepingBearSystems.Testing;
+using SleepingBearSystems.Tools.Testing;
 
 namespace CraftingTools.Domain.Test;
 
@@ -46,12 +44,10 @@ internal static class InventorySlotTests
         CollectionAssert.AreEqual(
             new[]
             {
-                "[INF] invalid_slot: \"Failure\" <s:>",
-                "[INF] Unable to create inventory slot. <s:>",
-                "SleepingBearSystems.Railway.ResultFailureException: Unable to create inventory slot.",
+                "[INF] invalid_slot: Failure <s:>",
 
-                "[INF] valid_slot: \"Success\" <s:>",
-                "[INF] item x 123 <s:>",
+                "[INF] valid_slot: Success <s:>",
+                "[INF] item x 123 <s:>"
             },
             log,
             string.Join(Environment.NewLine, log));

@@ -1,5 +1,5 @@
 ﻿using CraftingTools.Common;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Domain;
 
@@ -24,7 +24,7 @@ public static class ItemExtensions
     /// </summary>
     public static ItemPoco ToPoco(this Item? item)
     {
-        return new ItemPoco()
+        return new ItemPoco
         {
             Id = item?.Id ?? Guid.Empty,
             Name = item?.Name.Value ?? string.Empty

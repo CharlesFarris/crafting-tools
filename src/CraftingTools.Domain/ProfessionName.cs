@@ -1,5 +1,5 @@
 ﻿using SleepingBearSystems.Common;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Domain;
 

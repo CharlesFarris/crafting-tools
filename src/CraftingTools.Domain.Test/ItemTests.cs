@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using CraftingTools.Common;
 using NUnit.Framework;
-using SleepingBearSystems.Railway;
+using SleepingBearSystems.Tools.Railway;
+using SleepingBearSystems.Tools.Testing;
 
 namespace CraftingTools.Domain.Test;
 
@@ -15,7 +17,7 @@ internal static class ItemTests
     /// method.
     /// </summary>
     [Test]
-    public static void FromParametes_ValidatesBehavior()
+    public static void FromParameters_ValidatesBehavior()
     {
         // use case: valid construction
         {
@@ -45,10 +47,13 @@ internal static class ItemTests
     [Test]
     public static void FromPoco_ValidatesBehavior()
     {
+        var log = new List<string>();
+        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+
         // use case: valid poco
         {
             var id = new Guid(g: "B13BA385-5AED-4AE7-9FA8-69F3D6FD24A1");
-            var poco = new ItemPoco()
+            var poco = new ItemPoco
             {
                 Id = id,
                 Name = "name"
@@ -74,24 +79,23 @@ internal static class ItemTests
 
         // use case: invalid poco
         {
+            logger.Information(messageTemplate: "use case: invalid poco");
             var result = Item.FromPoco(
                 new ItemPoco
                 {
-                    Id = Guid.Empty,
+                    Id = Guid.Empty
                 }, resultId: "item");
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
-            Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to create item."));
-            Assert.IsInstanceOf<ResultFailureException>(result.Error.Exception);
-            Assert.That(
-                result.CollectFailureResults(),
-                Is.EqualTo(new[]
-                {
-                    "item: Unable to create item.",
-                    "  id: Id cannot be empty.",
-                    "  name: Item name cannot be empty.",
-                }),
-                result.JoinCollectFailureResults(Environment.NewLine));
+            result.LogResult(logger,
+                (localLocal, localItem) => { });
         }
+
+        CollectionAssert.AreEqual(
+            new[]
+            {
+                "[INF] use case: invalid poco <s:>",
+                "[INF] item: Failure <s:>"
+            },
+            log,
+            string.Join(Environment.NewLine, log));
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using NUnit.Framework;
 using Serilog;
-using SleepingBearSystems.Testing;
+using SleepingBearSystems.Tools.Testing;
 
 namespace CraftingTools.Domain.Test;
 
@@ -74,21 +74,21 @@ internal static class InventoryTests
             new[]
             {
                 "[INF] use case: null container <s:>",
-                "[INF] null_container: \"Success\" <s:>",
+                "[INF] null_container: Success <s:>",
                 "[INF]   Count: 0 <s:>",
 
                 "[INF] use case: container with null values <s:>",
-                "[INF] null_values: \"Success\" <s:>",
+                "[INF] null_values: Success <s:>",
                 "[INF]   Count: 2 <s:>",
                 "[INF]   item_1 x 1 <s:>",
                 "[INF]   item_2 x 2 <s:>",
 
                 "[INF] use case: combine duplicate items <s:>",
-                "[INF] duplicate_items: \"Success\" <s:>",
+                "[INF] duplicate_items: Success <s:>",
                 "[INF]   Count: 3 <s:>",
                 "[INF]   item_1 x 11 <s:>",
                 "[INF]   item_2 x 22 <s:>",
-                "[INF]   item_3 x 3 <s:>",
+                "[INF]   item_3 x 3 <s:>"
             },
             log,
             string.Join(Environment.NewLine, log));

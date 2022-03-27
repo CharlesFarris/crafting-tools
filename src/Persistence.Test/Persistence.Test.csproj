@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj"/>
+    <ProjectReference Include="..\Persistence\Persistence.csproj"/>
   </ItemGroup>
 
 </Project>

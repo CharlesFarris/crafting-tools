@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CraftingTools.Common\CraftingTools.Common.csproj"/>
+    <ProjectReference Include="..\Common\Common.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.28"/>
+    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.7"/>
   </ItemGroup>
 
 </Project>

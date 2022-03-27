@@ -5,17 +5,17 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DBFD0898-B6FF-4C59-B1D8-1C7E0A7CFC5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Domain", "src\CraftingTools.Domain\CraftingTools.Domain.csproj", "{4AE672C9-6614-4195-A5AF-8344C697DD0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{4AE672C9-6614-4195-A5AF-8344C697DD0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Domain.Test", "src\CraftingTools.Domain.Test\CraftingTools.Domain.Test.csproj", "{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Test", "src\Domain.Test\Domain.Test.csproj", "{81672B6D-5A6D-4A98-BDB7-B70FF40715EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Persistence", "src\CraftingTools.Persistence\CraftingTools.Persistence.csproj", "{A8D14B54-33BE-4A08-ADFB-D9368D3CC187}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "src\Persistence\Persistence.csproj", "{A8D14B54-33BE-4A08-ADFB-D9368D3CC187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Persistence.Test", "src\CraftingTools.Persistence.Test\CraftingTools.Persistence.Test.csproj", "{47F51F64-8AF4-428A-ADD1-362A7041C5FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Test", "src\Persistence.Test\Persistence.Test.csproj", "{47F51F64-8AF4-428A-ADD1-362A7041C5FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Common", "src\CraftingTools.Common\CraftingTools.Common.csproj", "{CA980960-D444-42A4-BB22-28BC213BD45F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Common\Common.csproj", "{CA980960-D444-42A4-BB22-28BC213BD45F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraftingTools.Common.Test", "src\CraftingTools.Common.Test\CraftingTools.Common.Test.csproj", "{1C3BA75C-A426-48A3-89A4-DCFCF2521037}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Test", "src\Common.Test\Common.Test.csproj", "{1C3BA75C-A426-48A3-89A4-DCFCF2521037}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

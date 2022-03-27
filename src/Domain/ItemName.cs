@@ -4,8 +4,8 @@ using SleepingBearSystems.Tools.Railway;
 namespace SleepingBearSystems.CraftingTools.Domain;
 
 /// <summary>
-/// Micro-type used to represent the name of a
-/// <see cref="Item"/>.
+/// Micro-type used to represent the name of
+/// a <see cref="Item"/>.
 /// </summary>
 public sealed class ItemName : ValueObject<ItemName>
 {
@@ -31,15 +31,20 @@ public sealed class ItemName : ValueObject<ItemName>
 
     public string Value { get; }
 
+    /// <summary>
+    /// Domain object instance representing an invalid <see cref="ItemName"/>.
+    /// </summary>
     public static readonly ItemName None = new(string.Empty);
 
     /// <summary>
     /// Factory method for creating <see cref="ItemName"/> instances.
     /// </summary>
-    public static Result<ItemName> FromParameter(string? value, string? resultTag = default)
+    public static Result<ItemName> FromParameters(object? value, string? resultId = default)
     {
         return value
-            .ToResultIsNotNullOrWhitespace(failureMessage: "Item name cannot be empty.", resultTag)
+            .As<string>(nameof(value))
+            .Check(stringValue => !string.IsNullOrWhiteSpace(stringValue), failureMessage: "Item name cannot be empty.",
+                resultId)
             .Check(validValue => validValue.Length <= 128, failureMessage: "Item name cannot exceed 128 characters.")
             .OnSuccess(validValue => new ItemName(validValue).ToResult(resultTag));
     }

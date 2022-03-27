@@ -5,7 +5,7 @@ namespace SleepingBearSystems.CraftingTools.Domain;
 /// <summary>
 /// Extension methods for <see cref="Inventory"/>.
 /// </summary>
-internal static class InventoryExtensions
+public static class InventoryExtensions
 {
     /// <summary>
     /// Combines two inventories.

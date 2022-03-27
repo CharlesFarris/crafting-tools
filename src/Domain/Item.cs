@@ -22,6 +22,9 @@ public sealed class Item : EntityGuid
     // Name of the item.
     public ItemName Name { get; }
 
+    /// <summary>
+    /// Domain object instance representing an invalid <see cref="Item"/>.
+    /// </summary>
     public static readonly Item None = new(Guid.Empty, ItemName.None);
 
     /// <summary>
@@ -36,21 +39,11 @@ public sealed class Item : EntityGuid
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validName = ItemName
-            .FromParameter(name, nameof(name))
+            .FromParameters(name, nameof(name))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
             ? Result<Item>.Success(new Item(validId, validName), resultTag)
             : Result<Item>.Failure(failures.ToError(message: "Unable to create item."), resultTag);
-    }
-
-    /// <summary>
-    /// Converts a <see cref="ItemPoco"/> instance into a <see cref="Item"/> instance.
-    /// </summary>
-    public static Result<Item> FromPoco(ItemPoco? poco, string? resultTag = default)
-    {
-        return poco is null
-            ? Result<Item>.Success(Item.None, resultTag)
-            : Item.FromParameters(poco.Id, poco.Name, resultTag);
     }
 }

@@ -18,7 +18,7 @@ public class TestProfessionRepository : IProfessionRepository
     }
 
     private static Profession CreateProfession(string id, string name) =>
-        Profession.FromParameters(new Guid(id), ProfessionName.FromParameters(name).Unwrap()).Unwrap();
+        Profession.FromParameters(new Guid(id), name).Unwrap();
 
     private static readonly ImmutableDictionary<Guid, Profession> Professions = new[]
         {

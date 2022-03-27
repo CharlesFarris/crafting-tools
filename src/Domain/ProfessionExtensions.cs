@@ -19,12 +19,27 @@ public static class ProfessionExtensions
             .Check(value => value != Profession.None, failureMessage: "Profession cannot be none.");
     }
 
-    public static Result<Profession> FromPoco(this ProfessionPoco? poco, string? resultTag = default)
+    /// <summary>
+    /// Creates a <see cref="Profession"/> instance into a
+    /// <see cref="ProfessionPoco"/> instance.
+    /// </summary>
+    public static ProfessionPoco ToPoco(this Profession? profession)
     {
-        return poco is null
-            ? Profession.None.ToResult(resultTag)
-            : ProfessionName
-                .FromParameters(poco.Name, resultTag)
-                .OnSuccess(professionName => Profession.FromParameters(poco.Id, professionName));
+        return new ProfessionPoco
+        {
+            Id = profession?.Id ?? Guid.Empty,
+            Name = profession?.Name.Value
+        };
+    }
+
+    /// <summary>
+    /// Creates a <see cref="Profession"/> instances from a
+    /// <see cref="ProfessionPoco"/> instance.
+    /// </summary>
+    public static Result<Profession> ToItem(this ProfessionPoco? poco, string? resultId = default)
+    {
+        return poco
+            .ToResultIsNotNull(resultId)
+            .OnSuccess(validPoco => Profession.FromParameters(validPoco.Id, validPoco.Name, resultId));
     }
 }

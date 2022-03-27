@@ -24,13 +24,12 @@ public class ProfessionName : ValueObject<ProfessionName>
 
     public static readonly ProfessionName None = new(string.Empty);
 
-    public static Result<ProfessionName> FromParameters(string? value, string? resultTag = default)
+    public static Result<ProfessionName> FromParameters(object? value, string? resultId = default)
     {
         return value
-            .ToResultIsNotNullOrWhitespace(failureMessage: "Profession name cannot be empty.",
-                resultTag)
-            .Check(validValue => validValue.Length <= 32,
-                failureMessage: "Profession name cannot exceed 32 characters.")
-            .OnSuccess(validValue => new ProfessionName(validValue).ToResult(resultTag));
+            .As<string>(resultId)
+            .Check(stringValue => !string.IsNullOrWhiteSpace(stringValue), failureMessage: "Profession name cannot be empty.")
+            .Check(stringValue => stringValue.Length <= 32, failureMessage: "Profession name cannot exceed 32 characters.")
+            .OnSuccess(validValue => new ProfessionName(validValue).ToResult(resultId));
     }
 }

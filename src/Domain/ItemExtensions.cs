@@ -20,7 +20,7 @@ public static class ItemExtensions
     }
 
     /// <summary>
-    /// Converts a <see cref="Item"/> instance into a <see cref="ItemPoco"/> instance.
+    /// Creates a <see cref="Item"/> instance into a <see cref="ItemPoco"/> instance.
     /// </summary>
     public static ItemPoco ToPoco(this Item? item)
     {
@@ -29,5 +29,16 @@ public static class ItemExtensions
             Id = item?.Id ?? Guid.Empty,
             Name = item?.Name.Value ?? string.Empty
         };
+    }
+
+    /// <summary>
+    /// Creates a <see cref="Item"/> instance from a <see cref="ItemPoco"/>
+    /// instance.
+    /// </summary>
+    public static Result<Item> FromPoco(this ItemPoco? poco, string? resultId = default)
+    {
+        return poco
+            .ToResultIsNotNull(resultId)
+            .OnSuccess(validPoco => Item.FromParameters(validPoco.Id, validPoco.Name, resultId));
     }
 }

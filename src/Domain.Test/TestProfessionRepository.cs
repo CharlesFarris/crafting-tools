@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystems.Common;
+using SleepingBearSystems.Tools.Common;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystems.Common;
+using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Persistence;

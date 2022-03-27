@@ -26,12 +26,14 @@ internal static class InventorySlotTests
 
         // use case: invalid parameters
         {
+            logger.Information(messageTemplate: "use case: invalid parameters");
             var result = InventorySlot.FromParameters(item: default, count: 0, resultId: "invalid_slot");
             result.LogResult(logger, LogInventorySlot);
         }
 
         // use case: valid parameters
         {
+            logger.Information(messageTemplate: "use case: valid parameters");
             var item = Item
                 .FromParameters(new Guid(g: "BCAA7FD8-99A6-4CA9-BD45-53288A96B32B"), name: "item")
                 .Unwrap();
@@ -42,8 +44,12 @@ internal static class InventorySlotTests
         CollectionAssert.AreEqual(
             new[]
             {
-                "[INF] invalid_slot: Failure <s:>",
+                "[INF] use case: invalid parameters <s:>",
+                "[INF] invalid_slot: Unable to create inventory slot. <s:>",
+                "[INF]   item: Item cannot be null <s:>",
+                "[INF]   count: Count must greater than 0. <s:>",
 
+                "[INF] use case: valid parameters <s:>",
                 "[INF] valid_slot: Success <s:>",
                 "[INF] item x 123 <s:>"
             },

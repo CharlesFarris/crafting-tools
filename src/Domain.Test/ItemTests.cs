@@ -91,7 +91,9 @@ internal static class ItemTests
             new[]
             {
                 "[INF] use case: invalid poco <s:>",
-                "[INF] item: Failure <s:>"
+                "[INF] item: Unable to create item. <s:>",
+                "[INF]   id: Id cannot be empty. <s:>",
+                "[INF]   name: Item name cannot be empty. <s:>"
             },
             log,
             string.Join(Environment.NewLine, log));

@@ -1,6 +1,6 @@
 ﻿using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Domain;
+namespace SleepingBearSystem.CraftingTools.Domain;
 
 /// <summary>
 /// Extension methods for the <see cref="RecipeOutput"/> class.

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace CraftingTools.Domain.Test;
+namespace SleepingBearSystem.CraftingTools.Domain.Test;
 
 /// <summary>
 /// Tests for <see cref="Recipe"/>.

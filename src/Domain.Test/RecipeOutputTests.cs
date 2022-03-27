@@ -1,4 +1,4 @@
-﻿namespace CraftingTools.Domain.Test;
+﻿namespace SleepingBearSystem.CraftingTools.Domain.Test;
 
 /// <summary>
 /// Tests for <see cref="RecipeOutput"/>.

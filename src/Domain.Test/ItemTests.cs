@@ -1,9 +1,9 @@
-﻿using CraftingTools.Common;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using SleepingBearSystem.CraftingTools.Common;
 using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 
-namespace CraftingTools.Domain.Test;
+namespace SleepingBearSystem.CraftingTools.Domain.Test;
 
 /// <summary>
 /// Tests for <see cref="Item"/> class.

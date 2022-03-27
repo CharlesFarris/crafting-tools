@@ -1,6 +1,6 @@
 ﻿using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Common;
+namespace SleepingBearSystem.CraftingTools.Common;
 
 public static class GuidExtensions
 {

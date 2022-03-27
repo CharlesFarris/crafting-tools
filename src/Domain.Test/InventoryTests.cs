@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Serilog;
 using SleepingBearSystems.Tools.Testing;
 
-namespace CraftingTools.Domain.Test;
+namespace SleepingBearSystem.CraftingTools.Domain.Test;
 
 /// <summary>
 /// Tests for <see cref="Inventory"/>.

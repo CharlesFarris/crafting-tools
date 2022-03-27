@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
-using CraftingTools.Common;
+using SleepingBearSystem.CraftingTools.Common;
 using SleepingBearSystems.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Domain;
+namespace SleepingBearSystem.CraftingTools.Domain;
 
 /// <summary>
 /// Domain object describing an in-game item.

@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace CraftingTools.Persistence;
+namespace SleepingBearSystem.CraftingTools.Persistence;
 
 public static class Connect
 {

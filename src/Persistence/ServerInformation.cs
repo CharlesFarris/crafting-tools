@@ -2,7 +2,7 @@
 using SleepingBearSystems.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Persistence;
+namespace SleepingBearSystem.CraftingTools.Persistence;
 
 /// <summary>
 /// Container class for a server connection.

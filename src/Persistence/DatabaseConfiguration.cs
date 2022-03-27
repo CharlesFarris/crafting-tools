@@ -2,7 +2,7 @@
 using SleepingBearSystems.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Persistence;
+namespace SleepingBearSystem.CraftingTools.Persistence;
 
 public sealed class DatabaseConfiguration : ValueObject<DatabaseConfiguration>
 {

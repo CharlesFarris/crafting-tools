@@ -1,6 +1,6 @@
 ﻿using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Persistence;
+namespace SleepingBearSystem.CraftingTools.Persistence;
 
 public static class ServerInformationExtensions
 {

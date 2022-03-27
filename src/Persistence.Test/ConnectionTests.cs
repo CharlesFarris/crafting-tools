@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace CraftingTools.Persistence.Test;
+namespace SleepingBearSystem.CraftingTools.Persistence.Test;
 
 internal static class ConnectionTests
 {

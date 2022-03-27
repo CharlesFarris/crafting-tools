@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Common.Test;
+namespace SleepingBearSystem.CraftingTools.Common.Test;
 
 /// <summary>
 /// Tests for <see cref="GuidExtensions"/>.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using SleepingBearSystems.Common;
 
-namespace CraftingTools.Domain.Test;
+namespace SleepingBearSystem.CraftingTools.Domain.Test;
 
 internal sealed class TestItemRepository : IItemRepository
 {

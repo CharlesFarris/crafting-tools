@@ -2,7 +2,7 @@
 using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 
-namespace CraftingTools.Persistence.Test;
+namespace SleepingBearSystem.CraftingTools.Persistence.Test;
 
 /// <summary>
 /// Tests for <see cref="ServerInformation"/>.

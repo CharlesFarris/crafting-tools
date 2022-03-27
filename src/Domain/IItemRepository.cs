@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using SleepingBearSystems.Common;
 
-namespace CraftingTools.Domain;
+namespace SleepingBearSystem.CraftingTools.Domain;
 
 public interface IItemRepository
 {

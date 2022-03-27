@@ -2,7 +2,7 @@
 using SleepingBearSystems.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Domain;
+namespace SleepingBearSystem.CraftingTools.Domain;
 
 public sealed class RecipeInput : ValueObject<RecipeInput>
 {

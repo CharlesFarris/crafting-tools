@@ -1,7 +1,7 @@
 ﻿using SleepingBearSystems.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace CraftingTools.Domain;
+namespace SleepingBearSystem.CraftingTools.Domain;
 
 /// <summary>
 /// Micro-type used to represent the name of a

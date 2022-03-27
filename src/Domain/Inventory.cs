@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using SleepingBearSystems.Tools.Railway;
 
-namespace SleepingBearSystem.CraftingTools.Domain;
+namespace SleepingBearSystems.CraftingTools.Domain;
 
 /// <summary>
 /// Immutable container class for handling item

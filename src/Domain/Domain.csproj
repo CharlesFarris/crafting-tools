@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>SleepingBearSystem.CraftingTools.Domain</AssemblyName>
-    <RootNamespace>SleepingBearSystem.CraftingTools.Domain</RootNamespace>
+    <AssemblyName>SleepingBearSystems.CraftingTools.Domain</AssemblyName>
+    <RootNamespace>SleepingBearSystems.CraftingTools.Domain</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 

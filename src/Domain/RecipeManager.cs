@@ -1,4 +1,4 @@
-﻿namespace SleepingBearSystem.CraftingTools.Domain;
+﻿namespace SleepingBearSystems.CraftingTools.Domain;
 
 public sealed class RecipeManager
 {

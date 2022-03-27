@@ -1,4 +1,4 @@
-﻿namespace SleepingBearSystem.CraftingTools.Domain;
+﻿namespace SleepingBearSystems.CraftingTools.Domain;
 
 /// <summary>
 /// Value object describing a range of integer values.

@@ -2,7 +2,7 @@
 using SleepingBearSystems.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace SleepingBearSystem.CraftingTools.Domain;
+namespace SleepingBearSystems.CraftingTools.Domain;
 
 /// <summary>
 /// Output of a <see cref="Recipe"/>.

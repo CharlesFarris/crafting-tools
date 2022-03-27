@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>SleepingBearSystem.CraftingTools.Persistence.Test</AssemblyName>
-    <RootNamespace>SleepingBearSystem.CraftingTools.Persistence.Test</RootNamespace>
+    <AssemblyName>SleepingBearSystems.CraftingTools.Persistence.Test</AssemblyName>
+    <RootNamespace>SleepingBearSystems.CraftingTools.Persistence.Test</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 

@@ -1,4 +1,4 @@
-﻿namespace SleepingBearSystem.CraftingTools.Common;
+﻿namespace SleepingBearSystems.CraftingTools.Common;
 
 public sealed class ItemPoco
 {

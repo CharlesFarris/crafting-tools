@@ -1,4 +1,4 @@
-﻿namespace SleepingBearSystem.CraftingTools.Domain.Test;
+﻿namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
 internal static class ItemExtensionsTests
 {

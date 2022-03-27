@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystem.CraftingTools.Common;
 using SleepingBearSystems.Common;
+using SleepingBearSystems.CraftingTools.Common;
 using SleepingBearSystems.Tools.Railway;
 
-namespace SleepingBearSystem.CraftingTools.Domain;
+namespace SleepingBearSystems.CraftingTools.Domain;
 
 public sealed class Recipe : Entity
 {

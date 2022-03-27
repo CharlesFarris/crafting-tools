@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>SleepingBearSystem.CraftingTools.Common</AssemblyName>
-    <RootNamespace>SleepingBearSystem.CraftingTools.Common</RootNamespace>
+    <AssemblyName>SleepingBearSystems.CraftingTools.Common</AssemblyName>
+    <RootNamespace>SleepingBearSystems.CraftingTools.Common</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 

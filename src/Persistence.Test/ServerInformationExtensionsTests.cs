@@ -1,4 +1,4 @@
-﻿namespace SleepingBearSystem.CraftingTools.Persistence.Test;
+﻿namespace SleepingBearSystems.CraftingTools.Persistence.Test;
 
 /// <summary>
 /// Tests for <see cref="ServerInformationExtensions"/>.

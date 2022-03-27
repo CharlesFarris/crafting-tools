@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using SleepingBearSystems.Common;
 
-namespace SleepingBearSystem.CraftingTools.Domain.Test;
+namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
 public class TestProfessionRepository : IProfessionRepository
 {

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>SleepingBearSystems.CraftingTools.Common</AssemblyName>
+    <RootNamespace>SleepingBearSystems.CraftingTools.Common</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SleepingBearSystems.Tools.Common" Version="0.2.1.7"/>
+    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.7"/>
+  </ItemGroup>
+
+</Project>

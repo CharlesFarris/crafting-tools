@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>SleepingBearSystems.CraftingTools.Persistence</AssemblyName>
+    <RootNamespace>SleepingBearSystems.CraftingTools.Persistence</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.28"/>
+  </ItemGroup>
+
+</Project>

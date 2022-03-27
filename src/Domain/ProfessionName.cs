@@ -20,6 +20,11 @@ public class ProfessionName : ValueObject<ProfessionName>
         return this.Value.GetHashCode();
     }
 
+    public override string ToString()
+    {
+        return this.Value;
+    }
+
     public string Value { get; }
 
     public static readonly ProfessionName None = new(string.Empty);
@@ -28,8 +33,10 @@ public class ProfessionName : ValueObject<ProfessionName>
     {
         return value
             .As<string>(resultId)
-            .Check(stringValue => !string.IsNullOrWhiteSpace(stringValue), failureMessage: "Profession name cannot be empty.")
-            .Check(stringValue => stringValue.Length <= 32, failureMessage: "Profession name cannot exceed 32 characters.")
+            .Check(stringValue => !string.IsNullOrWhiteSpace(stringValue),
+                failureMessage: "Profession name cannot be empty.")
+            .Check(stringValue => stringValue.Length <= 32,
+                failureMessage: "Profession name cannot exceed 32 characters.")
             .OnSuccess(validValue => new ProfessionName(validValue).ToResult(resultId));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -20,5 +21,18 @@ internal static class ItemNameTests
         return result.IsSuccess
             ? string.Join(separator: "|", result.Status, result.Unwrap().Value)
             : string.Join(separator: "|", result.Status, result.Error.Message);
+    }
+
+    /// <summary>
+    /// Validates the <c>FromParameters</c> method length checking.
+    /// </summary>
+    [Test]
+    public static void FromParameters_ValidatesLengthCheck()
+    {
+        var value = new string(c: 'X', count: 129);
+        var result = ItemName.FromParameters(value, resultId: "long_name");
+        Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
+        Assert.That(result.Error.Message, Is.EqualTo(expected: "Item name cannot exceed 128 characters."));
+        Assert.That(result.Id, Is.EqualTo(expected: "long_name"));
     }
 }

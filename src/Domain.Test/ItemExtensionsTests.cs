@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Serilog;
 using SleepingBearSystems.CraftingTools.Common;
-using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
@@ -64,7 +63,7 @@ internal static class ItemExtensionsTests
                 "[INF] null_poco <s:>",
                 "[INF] use case: invalid poco <s:>",
                 "[INF] invalid_poco: Unable to create item. <s:>",
-                "[INF]   id: Id cannot be empty. <s:>",
+                "[INF]   id: ID cannot be empty. <s:>",
                 "[INF]   name: Item name cannot be empty. <s:>",
             },
             log,

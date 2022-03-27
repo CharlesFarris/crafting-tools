@@ -30,12 +30,13 @@ public sealed class Item : EntityGuid
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static Result<Item> FromParameters(Guid id, string? name, string? resultTag = default)
+    public static Result<Item> FromParameters(object? id, object? name, string? resultId = default)
     {
         var failures = ImmutableList<Result>.Empty;
 
         var validId = id
-            .ToResultNotEmpty(failureMessage: "Id cannot be empty.", nameof(id))
+            .As<Guid>(nameof(id))
+            .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validName = ItemName

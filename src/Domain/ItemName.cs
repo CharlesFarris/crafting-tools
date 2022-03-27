@@ -29,6 +29,11 @@ public sealed class ItemName : ValueObject<ItemName>
         return this.Value.GetHashCode();
     }
 
+    public override string ToString()
+    {
+        return this.Value;
+    }
+
     public string Value { get; }
 
     /// <summary>

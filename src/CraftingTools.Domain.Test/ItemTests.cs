@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CraftingTools.Common;
+﻿using CraftingTools.Common;
 using NUnit.Framework;
 using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;

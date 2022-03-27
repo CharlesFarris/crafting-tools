@@ -1,0 +1,21 @@
+<Project>
+  <!--
+    Build Properties
+  -->
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!--
+    Nuget Package Properties
+  -->
+  <PropertyGroup>
+    <Authors>Charles Farris</Authors>
+    <Company>Sleeping Bear Systems</Company>
+    <Copyright>Copyright (c) 2021-$([System.DateTime]::Now.Year) Charles Farris</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+</Project>

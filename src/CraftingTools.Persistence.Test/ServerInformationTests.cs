@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 

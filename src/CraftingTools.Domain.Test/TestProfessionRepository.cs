@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using SleepingBearSystems.Common;
 
 namespace CraftingTools.Domain.Test;

@@ -11,16 +11,16 @@ internal static class ItemNameTests
     /// <summary>
     /// Validates the <c>FromParameters</c> method.
     /// </summary>
-    [TestCase(arguments: null, ExpectedResult = "Failure|Item name cannot be empty.", TestName = "null_value")]
-    [TestCase(arguments: "", ExpectedResult = "Failure|Item name cannot be empty.", TestName = "empty_value")]
-    [TestCase(arguments: "   ", ExpectedResult = "Failure|Item name cannot be empty.", TestName = "whitespace_value")]
-    [TestCase(arguments: "name", ExpectedResult = "Success|name", TestName = "string_value")]
-    public static string FromParameters_ValidatesBehavior(object? value)
+    [TestCase(arg1: null, arg2: "id", ExpectedResult = "Failure|id|Item name cannot be empty.", TestName = "null_value")]
+    [TestCase(arg1: "", arg2: "id", ExpectedResult = "Failure|id|Item name cannot be empty.", TestName = "empty_value")]
+    [TestCase(arg1: "   ", arg2: "id", ExpectedResult = "Failure|id|Item name cannot be empty.", TestName = "whitespace_value")]
+    [TestCase(arg1: "name", arg2: "id", ExpectedResult = "Success|id|name", TestName = "string_value")]
+    public static string FromParameters_ValidatesBehavior(object? value, string? resultId)
     {
-        var result = ItemName.FromParameters(value);
+        var result = ItemName.FromParameters(value,resultId);
         return result.IsSuccess
-            ? string.Join(separator: "|", result.Status, result.Unwrap().Value)
-            : string.Join(separator: "|", result.Status, result.Error.Message);
+            ? string.Join(separator: "|", result.Status, result.Id, result.Unwrap().Value)
+            : string.Join(separator: "|", result.Status, result.Id, result.Error.Message);
     }
 
     /// <summary>

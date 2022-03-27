@@ -47,9 +47,8 @@ public sealed class ItemName : ValueObject<ItemName>
     public static Result<ItemName> FromParameters(object? value, string? resultId = default)
     {
         return value
-            .As<string>(nameof(value))
-            .Check(stringValue => !string.IsNullOrWhiteSpace(stringValue), failureMessage: "Item name cannot be empty.",
-                resultId)
+            .As<string>(resultId)
+            .Check(stringValue => !string.IsNullOrWhiteSpace(stringValue), failureMessage: "Item name cannot be empty.")
             .Check(validValue => validValue.Length <= 128, failureMessage: "Item name cannot exceed 128 characters.")
             .OnSuccess(validValue => new ItemName(validValue).ToResult(resultTag));
     }

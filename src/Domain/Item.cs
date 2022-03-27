@@ -6,7 +6,7 @@ using SleepingBearSystems.Tools.Railway;
 namespace SleepingBearSystems.CraftingTools.Domain;
 
 /// <summary>
-/// Domain object describing an in-game item.
+/// Domain object describing an item in a game.
 /// </summary>
 public sealed class Item : EntityGuid
 {

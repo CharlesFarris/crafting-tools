@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SleepingBearSystems.Tools.Railway;
 
 namespace CraftingTools.Common.Test;

@@ -1,4 +1,5 @@
 ﻿using SleepingBearSystems.CraftingTools.Common;
+using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Domain;
@@ -35,10 +36,38 @@ public static class ItemExtensions
     /// Creates a <see cref="Item"/> instance from a <see cref="ItemPoco"/>
     /// instance.
     /// </summary>
-    public static Result<Item> FromPoco(this ItemPoco? poco, string? resultId = default)
+    public static Result<Item> ToItem(this ItemPoco? poco, string? resultId = default)
     {
         return poco
             .ToResultIsNotNull(resultId)
             .OnSuccess(validPoco => Item.FromParameters(validPoco.Id, validPoco.Name, resultId));
+    }
+
+    public static Item ToItem(this object? item, IItemRepository itemRepository, bool ignoreCase = true)
+    {
+        switch (item)
+        {
+            case null:
+                return Item.None;
+            case Item validItem:
+                return validItem;
+            default:
+            {
+                var id = item.As<Guid>();
+                if (id.IsSuccess)
+                {
+                    return itemRepository
+                        .GetItemById(id.Unwrap())
+                        .GetValueOrDefault(Item.None)!;
+                }
+
+                var name = item.As<string>();
+                return name.IsSuccess
+                    ? itemRepository
+                        .GetItemByName(name.Unwrap(), ignoreCase)
+                        .GetValueOrDefault(Item.None)!
+                    : Item.None;
+            }
+        }
     }
 }

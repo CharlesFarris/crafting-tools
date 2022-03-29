@@ -3,12 +3,18 @@ using SleepingBearSystems.Tools.Common;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
+/// <summary>
+/// Concrete implementation of the <see cref="IItemRepository"/>
+/// interface used for testing..
+/// </summary>
 internal sealed class TestItemRepository : IItemRepository
 {
-    static TestItemRepository()
+    /// <inheritdoc cref="IDisposable"/>.
+    public void Dispose()
     {
-        
     }
+
+    /// <inheritdoc cref="IItemRepository"/>.
     public Maybe<Item> GetItemById(Guid id)
     {
         return TestItemRepository.Items.TryGetValue(id, out var item)
@@ -16,9 +22,21 @@ internal sealed class TestItemRepository : IItemRepository
             : Maybe<Item>.None;
     }
 
+    /// <inheritdoc cref="IItemRepository"/>.
     public ImmutableList<Item> GetItems()
     {
         return TestItemRepository.Items.Values.ToImmutableList();
+    }
+
+    /// <inheritdoc cref="IItemRepository"/>.
+    public Maybe<Item> GetItemByName(string? name, bool ignoreCase)
+    {
+        var comparison = ignoreCase ?
+            StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        var item = TestItemRepository.Items.Values.FirstOrDefault(i => i.Name.Value.Equals(name, comparison));
+        return item?.ToMaybe() ?? Maybe<Item>.None;
+
     }
 
     private static readonly ImmutableDictionary<Guid, Item> Items = new[]

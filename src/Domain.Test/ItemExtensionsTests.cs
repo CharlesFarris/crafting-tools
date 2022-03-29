@@ -29,7 +29,7 @@ internal static class ItemExtensionsTests
                     Id = new Guid(g: "B13BA385-5AED-4AE7-9FA8-69F3D6FD24A1"),
                     Name = "name"
                 }
-                .FromPoco(resultId: "valid_poco")
+                .ToItem(resultId: "valid_poco")
                 .LogResult(logger, SuccessAction);
         }
 
@@ -37,7 +37,7 @@ internal static class ItemExtensionsTests
         {
             logger.Information(messageTemplate: "use case: null poco");
             default(ItemPoco)
-                .FromPoco(resultId: "null_poco")
+                .ToItem(resultId: "null_poco")
                 .LogResult(logger, SuccessAction);
         }
 
@@ -48,7 +48,7 @@ internal static class ItemExtensionsTests
                 {
                     Id = Guid.Empty
                 }
-                .FromPoco(resultId: "invalid_poco")
+                .ToItem(resultId: "invalid_poco")
                 .LogResult(logger, SuccessAction);
         }
 

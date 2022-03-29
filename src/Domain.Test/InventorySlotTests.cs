@@ -33,13 +33,13 @@ internal static class InventorySlotTests
             result.LogResult(logger, LogInventorySlot);
         }
 
+        using IItemRepository itemRepository = new TestItemRepository();
+        var item = itemRepository.GetItemByName(name: "Water").Unwrap();
+
         // use case: valid parameters
         {
             logger.Information(messageTemplate: "use case: valid parameters");
-            var item = Item
-                .FromParameters(new Guid(g: "BCAA7FD8-99A6-4CA9-BD45-53288A96B32B"), name: "item")
-                .Unwrap();
-            var result = InventorySlot.FromParameters(item, count: 123, resultTag: "valid_slot");
+            var result = InventorySlot.FromParameters(item, count: 123, resultId: "valid_slot");
             result.LogResult(logger, LogInventorySlot);
         }
 
@@ -53,7 +53,7 @@ internal static class InventorySlotTests
 
                 "[INF] use case: valid parameters <s:>",
                 "[INF] valid_slot: Success <s:>",
-                "[INF] item x 123 <s:>"
+                "[INF] Water x 123 <s:>"
             },
             log,
             string.Join(Environment.NewLine, log));

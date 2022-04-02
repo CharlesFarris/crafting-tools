@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using Serilog;
+using SleepingBearSystems.Tools.Common;
+using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
@@ -16,7 +18,7 @@ internal static class InventorySlotTests
     public static void FromParameters_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
 
         // local method for writing an inventory slot to the logger
         static void LogInventorySlot(ILogger localLogger, InventorySlot localSlot)
@@ -27,7 +29,7 @@ internal static class InventorySlotTests
         // use case: invalid parameters
         {
             logger.Information(messageTemplate: "use case: invalid parameters");
-            var result = InventorySlot.FromParameters(item: default, count: 0, resultId: "invalid_slot");
+            var result = InventorySlot.FromParameters(item: default, count: 0, resultTag: "invalid_slot");
             result.LogResult(logger, LogInventorySlot);
         }
 
@@ -37,7 +39,7 @@ internal static class InventorySlotTests
             var item = Item
                 .FromParameters(new Guid(g: "BCAA7FD8-99A6-4CA9-BD45-53288A96B32B"), name: "item")
                 .Unwrap();
-            var result = InventorySlot.FromParameters(item, count: 123, resultId: "valid_slot");
+            var result = InventorySlot.FromParameters(item, count: 123, resultTag: "valid_slot");
             result.LogResult(logger, LogInventorySlot);
         }
 

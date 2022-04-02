@@ -5,7 +5,7 @@ using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Domain;
 
-public sealed class Recipe : Entity
+public sealed class Recipe : EntityGuid
 {
     /// <summary>
     /// Constructor.
@@ -35,9 +35,9 @@ public sealed class Recipe : Entity
         Profession profession,
         RecipeOutput? output,
         IEnumerable<RecipeInput?>? inputs,
-        string? resultId = default)
+        string? resultTag = default)
     {
-        var failures = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<Result>.Empty;
 
         var validId = id
             .ToResultNotEmpty(failureMessage: "Id cannot be empty.", nameof(id))
@@ -63,7 +63,7 @@ public sealed class Recipe : Entity
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? Result<Recipe>.Success(new Recipe(validId, validProfession, validOutput, validInputs!), resultId)
-            : Result<Recipe>.Failure(failures.ToError(message: "Unable to create recipe."), resultId);
+            ? Result<Recipe>.Success(new Recipe(validId, validProfession, validOutput, validInputs!), resultTag)
+            : Result<Recipe>.Failure(failures.ToError(message: "Unable to create recipe."), resultTag);
     }
 }

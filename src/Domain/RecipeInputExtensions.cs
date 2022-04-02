@@ -12,10 +12,10 @@ public static class RecipeInputExtensions
     /// Checks if <see cref="RecipeInput"/> instance is not null and not the <see cref="RecipeInput.None"/> instance
     /// and wraps the instance in a <see cref="Result{TValue}"/>.
     /// </summary>
-    public static Result<RecipeInput> ToValidResult(this RecipeInput input, string? resultId = default)
+    public static Result<RecipeInput> ToValidResult(this RecipeInput input, string? resultTag = default)
     {
         return input
-            .ToResultIsNotNull(failureMessage: "Input cannot be null.", resultId)
+            .ToResultIsNotNull(failureMessage: "Input cannot be null.", resultTag)
             .Check(value => value != RecipeInput.None, failureMessage: "Input cannot be none.");
     }
 
@@ -27,9 +27,9 @@ public static class RecipeInputExtensions
     /// <summary>
     /// Helper method from creating <see cref="RecipeInput"/> instance.
     /// </summary>
-    public static Result<RecipeInput> ToRecipeInput(this Item item, int count, string? resultId = default)
+    public static Result<RecipeInput> ToRecipeInput(this Item item, int count, string? resultTag = default)
     {
-        return RecipeInput.FromParameters(item, count, resultId);
+        return RecipeInput.FromParameters(item, count, resultTag);
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public static class RecipeInputExtensions
     /// instance.
     /// </summary>
     public static Result<RecipeInput> FromPoco(this RecipeInputPoco? poco, IItemRepository itemRepository,
-        string? resultId = default)
+        string? resultTag = default)
     {
         if (itemRepository is null)
         {
@@ -46,13 +46,13 @@ public static class RecipeInputExtensions
 
         return poco is null
             ? RecipeInput.None
-                .ToResult(resultId)
+                .ToResult(resultTag)
             : itemRepository
                 .GetItemById(poco.ItemId)
-                .ToResult(resultId)
+                .ToResult(resultTag)
                 .Check(maybe => maybe.HasValue, failureMessage: "Item not found.")
                 .Transform(maybe => maybe.Unwrap())
-                .OnSuccess(item => RecipeInput.FromParameters(item, poco.Count), resultId);
+                .OnSuccess(item => RecipeInput.FromParameters(item, poco.Count), resultTag);
     }
 
     /// <summary>

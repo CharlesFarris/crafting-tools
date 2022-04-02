@@ -18,11 +18,11 @@ public sealed class Inventory
 
     public static readonly Inventory Empty = new(ImmutableList<InventorySlot>.Empty);
 
-    public static Result<Inventory> FromParameters(IEnumerable<InventorySlot?>? slots, string? resultId = default)
+    public static Result<Inventory> FromParameters(IEnumerable<InventorySlot?>? slots, string? resultTag = default)
     {
         if (slots is null)
         {
-            return Inventory.Empty.ToResult(resultId);
+            return Inventory.Empty.ToResult(resultTag);
         }
 
         var validSlots = slots
@@ -31,6 +31,6 @@ public sealed class Inventory
             .Select(group =>
                 InventorySlot.FromParameters(group.First()!.Item, group.Sum(slot => slot!.Count)).Unwrap())
             .ToImmutableList();
-        return new Inventory(validSlots).ToResult(resultId);
+        return new Inventory(validSlots).ToResult(resultTag);
     }
 }

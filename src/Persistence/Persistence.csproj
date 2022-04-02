@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj"/>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.28"/>
+    <PackageReference Include="SleepingBearSystems.Tools.Persistence" Version="0.2.1.52" />
   </ItemGroup>
 
 </Project>

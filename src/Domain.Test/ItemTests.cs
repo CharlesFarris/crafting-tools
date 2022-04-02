@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SleepingBearSystems.CraftingTools.Common;
+using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 
@@ -20,10 +21,10 @@ internal static class ItemTests
         // use case: valid construction
         {
             var id = new Guid(g: "5E226140-DF07-47A8-B290-21F5B7E581B6");
-            var result = Item.FromParameters(id, name: "name", resultId: "resultId");
+            var result = Item.FromParameters(id, name: "name", resultTag: "resultTag");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
-            Assert.That(result.Id, Is.EqualTo(expected: "resultId"));
+            Assert.That(result.Tag, Is.EqualTo(expected: "resultTag"));
             var item = result.Unwrap();
             Assert.That(item.Id, Is.EqualTo(id));
             Assert.That(item.Name.Value, Is.EqualTo(expected: "name"));
@@ -31,11 +32,11 @@ internal static class ItemTests
 
         // use case: invalid ID
         {
-            var result = Item.FromParameters(Guid.Empty, name: "name", resultId: "resultId");
+            var result = Item.FromParameters(Guid.Empty, name: "name", resultTag: "resultTag");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
             Assert.That(result.Error.Message, Is.EqualTo(expected: "Unable to create item."));
-            Assert.That(result.Id, Is.EqualTo(expected: "resultId"));
+            Assert.That(result.Tag, Is.EqualTo(expected: "resultTag"));
         }
     }
 
@@ -46,7 +47,7 @@ internal static class ItemTests
     public static void FromPoco_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
 
         // use case: valid poco
         {
@@ -56,10 +57,10 @@ internal static class ItemTests
                 Id = id,
                 Name = "name"
             };
-            var result = Item.FromPoco(poco, resultId: "poco");
+            var result = Item.FromPoco(poco, resultTag: "poco");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
-            Assert.That(result.Id, Is.EqualTo(expected: "poco"));
+            Assert.That(result.Tag, Is.EqualTo(expected: "poco"));
             var item = result.Unwrap();
             Assert.That(item.Id, Is.EqualTo(id));
             Assert.That(item.Name.Value, Is.EqualTo(expected: "name"));
@@ -67,10 +68,10 @@ internal static class ItemTests
 
         // use case: null poco
         {
-            var result = Item.FromPoco(poco: default, resultId: "null");
+            var result = Item.FromPoco(poco: default, resultTag: "null");
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Status, Is.EqualTo(ResultStatus.Success));
-            Assert.That(result.Id, Is.EqualTo(expected: "null"));
+            Assert.That(result.Tag, Is.EqualTo(expected: "null"));
             var item = result.Unwrap();
             Assert.That(item, Is.EqualTo(Item.None));
         }
@@ -82,7 +83,7 @@ internal static class ItemTests
                 new ItemPoco
                 {
                     Id = Guid.Empty
-                }, resultId: "item");
+                }, resultTag: "item");
             result.LogResult(logger,
                 (localLocal, localItem) => { });
         }

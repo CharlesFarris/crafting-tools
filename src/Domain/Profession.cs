@@ -5,7 +5,7 @@ using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Domain;
 
-public class Profession : Entity
+public class Profession : EntityGuid
 {
     private Profession(Guid id, ProfessionName name) : base(id)
     {
@@ -15,9 +15,9 @@ public class Profession : Entity
     public static readonly Profession None = new(Guid.Empty, ProfessionName.None);
     public ProfessionName Name { get; }
 
-    public static Result<Profession> FromParameters(Guid id, ProfessionName name, string? resultId = default)
+    public static Result<Profession> FromParameters(Guid id, ProfessionName name, string? resultTag = default)
     {
-        var failures = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<Result>.Empty;
 
         var validId = id
             .ToResultNotEmpty(failureMessage: "Id cannot be empty.", nameof(id))
@@ -29,7 +29,7 @@ public class Profession : Entity
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? Result<Profession>.Success(new Profession(validId, validName), resultId)
-            : Result<Profession>.Failure(failures.ToError(message: "Unable to create profession."), resultId);
+            ? Result<Profession>.Success(new Profession(validId, validName), resultTag)
+            : Result<Profession>.Failure(failures.ToError(message: "Unable to create profession."), resultTag);
     }
 }

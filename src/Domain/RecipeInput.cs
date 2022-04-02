@@ -40,9 +40,9 @@ public sealed class RecipeInput : ValueObject<RecipeInput>
     /// Factory method for creating a <see cref="RecipeInput"/> from the
     /// supplied parameters.
     /// </summary>
-    public static Result<RecipeInput> FromParameters(Item item, int count, string? resultId = default)
+    public static Result<RecipeInput> FromParameters(Item item, int count, string? resultTag = default)
     {
-        var failures = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<Result>.Empty;
 
         var validItem = item
             .ToResultValid(nameof(item))
@@ -54,8 +54,8 @@ public sealed class RecipeInput : ValueObject<RecipeInput>
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? Result<RecipeInput>.Success(new RecipeInput(validItem, validCount), resultId)
+            ? Result<RecipeInput>.Success(new RecipeInput(validItem, validCount), resultTag)
             : Result<RecipeInput>.Failure(failures.ToError(message: "Unable to create recipe output."),
-                resultId);
+                resultTag);
     }
 }

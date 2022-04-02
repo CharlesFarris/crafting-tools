@@ -12,10 +12,10 @@ public static class ItemExtensions
     /// Checks if a <see cref="Item"/> instance is not null or not the <see cref="Item.None"/> instance
     /// and wraps the instance in a <see cref="Result{TValue}"/>.
     /// </summary>
-    public static Result<Item> ToResultValid(this Item? item, string? resultId = default)
+    public static Result<Item> ToResultValid(this Item? item, string? resultTag = default)
     {
         return item
-            .ToResultIsNotNull(failureMessage: "Item cannot be null", resultId)
+            .ToResultIsNotNull(failureMessage: "Item cannot be null", resultTag)
             .Check(value => value != Item.None, failureMessage: "Item cannot be none.");
     }
 

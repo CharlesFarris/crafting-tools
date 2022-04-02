@@ -7,10 +7,10 @@ public static class GuidExtensions
     public static Result<Guid> ToResultNotEmpty(
         this Guid uid,
         string? failureMessage = default,
-        string? resultId = default)
+        string? resultTag = default)
     {
         return uid
-            .ToResult(resultId)
+            .ToResult(resultTag)
             .Check(value => value != Guid.Empty, failureMessage ?? "Guid cannot be empty.");
     }
 }

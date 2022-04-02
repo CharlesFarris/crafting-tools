@@ -8,7 +8,7 @@ namespace SleepingBearSystems.CraftingTools.Domain;
 /// <summary>
 /// Domain object describing an in-game item.
 /// </summary>
-public sealed class Item : Entity
+public sealed class Item : EntityGuid
 {
     /// <summary>
     /// Constructor.
@@ -27,9 +27,9 @@ public sealed class Item : Entity
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static Result<Item> FromParameters(Guid id, string? name, string? resultId = default)
+    public static Result<Item> FromParameters(Guid id, string? name, string? resultTag = default)
     {
-        var failures = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<Result>.Empty;
 
         var validId = id
             .ToResultNotEmpty(failureMessage: "Id cannot be empty.", nameof(id))
@@ -40,17 +40,17 @@ public sealed class Item : Entity
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? Result<Item>.Success(new Item(validId, validName), resultId)
-            : Result<Item>.Failure(failures.ToError(message: "Unable to create item."), resultId);
+            ? Result<Item>.Success(new Item(validId, validName), resultTag)
+            : Result<Item>.Failure(failures.ToError(message: "Unable to create item."), resultTag);
     }
 
     /// <summary>
     /// Converts a <see cref="ItemPoco"/> instance into a <see cref="Item"/> instance.
     /// </summary>
-    public static Result<Item> FromPoco(ItemPoco? poco, string? resultId = default)
+    public static Result<Item> FromPoco(ItemPoco? poco, string? resultTag = default)
     {
         return poco is null
-            ? Result<Item>.Success(Item.None, resultId)
-            : Item.FromParameters(poco.Id, poco.Name, resultId);
+            ? Result<Item>.Success(Item.None, resultTag)
+            : Item.FromParameters(poco.Id, poco.Name, resultTag);
     }
 }

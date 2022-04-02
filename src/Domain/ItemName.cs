@@ -36,11 +36,11 @@ public sealed class ItemName : ValueObject<ItemName>
     /// <summary>
     /// Factory method for creating <see cref="ItemName"/> instances.
     /// </summary>
-    public static Result<ItemName> FromParameter(string? value, string? resultId = default)
+    public static Result<ItemName> FromParameter(string? value, string? resultTag = default)
     {
         return value
-            .ToResultIsNotNullOrWhitespace(failureMessage: "Item name cannot be empty.", resultId)
+            .ToResultIsNotNullOrWhitespace(failureMessage: "Item name cannot be empty.", resultTag)
             .Check(validValue => validValue.Length <= 128, failureMessage: "Item name cannot exceed 128 characters.")
-            .OnSuccess(validValue => new ItemName(validValue).ToResult(resultId));
+            .OnSuccess(validValue => new ItemName(validValue).ToResult(resultTag));
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Immutable;
 using NUnit.Framework;
 using Serilog;
+using SleepingBearSystems.Tools.Common;
+using SleepingBearSystems.Tools.Railway;
 using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
@@ -17,7 +19,7 @@ internal static class InventoryTests
     public static void FromParameters_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
 
         // local method for writing an Inventory instance to the logger
         static void LogInventory(ILogger localLogger, Inventory localInventory, string indent = "  ")
@@ -33,7 +35,7 @@ internal static class InventoryTests
         // use case: null container
         {
             logger.Information(messageTemplate: "use case: null container");
-            var result = Inventory.FromParameters(slots: default, resultId: "null_container");
+            var result = Inventory.FromParameters(slots: default, resultTag: "null_container");
             result.LogResult(logger, (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
         }
 
@@ -50,7 +52,7 @@ internal static class InventoryTests
                 .Add(InventorySlot.FromParameters(item1, count: 1).Unwrap())
                 .Add(InventorySlot.Empty)
                 .Add(InventorySlot.FromParameters(item2, count: 2).Unwrap());
-            var result = Inventory.FromParameters(slots, resultId: "null_values");
+            var result = Inventory.FromParameters(slots, resultTag: "null_values");
             result.LogResult(logger, (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
         }
 
@@ -63,7 +65,7 @@ internal static class InventoryTests
                 .Add(InventorySlot.FromParameters(item2, count: 2).Unwrap())
                 .Add(InventorySlot.FromParameters(item2, count: 20).Unwrap())
                 .Add(InventorySlot.FromParameters(item3, count: 3).Unwrap());
-            var result = Inventory.FromParameters(slots, resultId: "duplicate_items");
+            var result = Inventory.FromParameters(slots, resultTag: "duplicate_items");
             result.LogResult(logger, (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
         }
 

@@ -32,9 +32,9 @@ public sealed class InventorySlot
     public static Result<InventorySlot> FromParameters(
         Item? item,
         int count,
-        string? resultId = default)
+        string? resultTag = default)
     {
-        var failures = ImmutableList<ResultBase>.Empty;
+        var failures = ImmutableList<Result>.Empty;
 
         var validItem = item
             .ToResultValid(nameof(item))
@@ -46,7 +46,7 @@ public sealed class InventorySlot
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return failures.IsEmpty
-            ? Result<InventorySlot>.Success(new InventorySlot(validItem, validCount), resultId)
-            : Result<InventorySlot>.Failure(failures.ToError(message: "Unable to create inventory slot."), resultId);
+            ? Result<InventorySlot>.Success(new InventorySlot(validItem, validCount), resultTag)
+            : Result<InventorySlot>.Failure(failures.ToError(message: "Unable to create inventory slot."), resultTag);
     }
 }

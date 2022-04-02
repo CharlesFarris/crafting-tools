@@ -30,12 +30,12 @@ public class Profession : EntityGuid
     /// <summary>
     /// Constructs a <see cref="Profession"/> instance from the supplied parameters.
     /// </summary>
-    public static Result<Profession> FromParameters(object? id, object? name, string? resultId = default)
+    public static Result<Profession> FromParameters(object? id, object? name, string? resultTag = default)
     {
         var failures = ImmutableList<Result>.Empty;
 
         var validId = id
-            .As<Guid>(nameof(id))
+            .As<Guid>(tag: nameof(id))
             .Check(guidValue => guidValue != Guid.Empty, failureMessage: "Id cannot be empty.", nameof(id))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 

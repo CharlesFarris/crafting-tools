@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
 using Serilog;
 using SleepingBearSystems.CraftingTools.Common;
-using SleepingBearSystems.Tools.Testing;
+using SleepingBearSystems.Tools.Common;
+using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -14,7 +15,7 @@ internal static class ItemExtensionsTests
     public static void FromPoco_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
 
         static void SuccessAction(ILogger localLogger, Item localItem)
         {
@@ -64,7 +65,7 @@ internal static class ItemExtensionsTests
                 "[INF] use case: invalid poco <s:>",
                 "[INF] invalid_poco: Unable to create item. <s:>",
                 "[INF]   id: ID cannot be empty. <s:>",
-                "[INF]   name: Item name cannot be empty. <s:>",
+                "[INF]   name: Item name cannot be empty. <s:>"
             },
             log,
             string.Join(Environment.NewLine, log));

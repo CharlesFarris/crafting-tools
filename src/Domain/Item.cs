@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using SleepingBearSystems.CraftingTools.Common;
 using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
 
@@ -30,12 +29,12 @@ public sealed class Item : EntityGuid
     /// <summary>
     /// Factory method for constructing <see cref="Item"/> instances.
     /// </summary>
-    public static Result<Item> FromParameters(object? id, object? name, string? resultId = default)
+    public static Result<Item> FromParameters(object? id, object? name, string? resultTag = default)
     {
         var failures = ImmutableList<Result>.Empty;
 
         var validId = id
-            .As<Guid>(nameof(id))
+            .As<Guid>(tag: nameof(id))
             .Check(value => value != Guid.Empty, failureMessage: "ID cannot be empty.")
             .UnwrapOrAddToFailuresImmutable(ref failures);
 

@@ -2,7 +2,6 @@
 using Serilog;
 using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
-using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -39,7 +38,7 @@ internal static class InventorySlotTests
         // use case: valid parameters
         {
             logger.Information(messageTemplate: "use case: valid parameters");
-            var result = InventorySlot.FromParameters(item, count: 123, resultId: "valid_slot");
+            var result = InventorySlot.FromParameters(item, count: 123, resultTag: "valid_slot");
             result.LogResult(logger, LogInventorySlot);
         }
 

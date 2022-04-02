@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Serilog;
-using SleepingBearSystems.Tools.Testing;
+using SleepingBearSystems.Tools.Common;
+using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -16,7 +17,7 @@ internal static class ItemTests
     public static void FromParameters_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = TestLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
 
         static void SuccessAction(ILogger localLogger, Item localItem)
         {
@@ -28,7 +29,7 @@ internal static class ItemTests
             logger.Information(messageTemplate: "use case: valid construction");
             Item
                 .FromParameters("5E226140-DF07-47A8-B290-21F5B7E581B6", name: "name",
-                    resultId: "valid_item")
+                    resultTag: "valid_item")
                 .LogResult(logger, SuccessAction);
         }
 
@@ -36,7 +37,7 @@ internal static class ItemTests
         {
             logger.Information(messageTemplate: "use case: invalid parameters");
             Item
-                .FromParameters(id: default, name: default, resultId: "invalid_item")
+                .FromParameters(id: default, name: default, resultTag: "invalid_item")
                 .LogResult(logger, SuccessAction);
         }
 

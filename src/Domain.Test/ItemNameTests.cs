@@ -19,8 +19,8 @@ internal static class ItemNameTests
     {
         var result = ItemName.FromParameters(value,resultId);
         return result.IsSuccess
-            ? string.Join(separator: "|", result.Status, result.Id, result.Unwrap().Value)
-            : string.Join(separator: "|", result.Status, result.Id, result.Error.Message);
+            ? string.Join(separator: "|", result.Status, result.Tag, result.Unwrap().Value)
+            : string.Join(separator: "|", result.Status, result.Tag, result.Error.Message);
     }
 
     /// <summary>
@@ -30,9 +30,9 @@ internal static class ItemNameTests
     public static void FromParameters_ValidatesLengthCheck()
     {
         var value = new string(c: 'X', count: 129);
-        var result = ItemName.FromParameters(value, resultId: "long_name");
+        var result = ItemName.FromParameters(value, resultTag: "long_name");
         Assert.That(result.Status, Is.EqualTo(ResultStatus.Failure));
         Assert.That(result.Error.Message, Is.EqualTo(expected: "Item name cannot exceed 128 characters."));
-        Assert.That(result.Id, Is.EqualTo(expected: "long_name"));
+        Assert.That(result.Tag, Is.EqualTo(expected: "long_name"));
     }
 }

@@ -44,11 +44,11 @@ public sealed class Recipe : EntityGuid
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validProfession = profession
-            .ToValidResult(nameof(profession))
+            .ToResultIsNotNullOrNone(nameof(profession))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validOutput = output
-            .ToValidResult(nameof(output))
+            .ToResultIsNotNullOrNone(nameof(output))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validInputs = (inputs ?? Enumerable.Empty<RecipeInput?>())

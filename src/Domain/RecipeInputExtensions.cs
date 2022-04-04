@@ -12,7 +12,7 @@ public static class RecipeInputExtensions
     /// Checks if <see cref="RecipeInput"/> instance is not null and not the <see cref="RecipeInput.None"/> instance
     /// and wraps the instance in a <see cref="Result{TValue}"/>.
     /// </summary>
-    public static Result<RecipeInput> ToValidResult(this RecipeInput input, string? resultTag = default)
+    public static Result<RecipeInput> ToResultIsNotNullOrNone(this RecipeInput input, string? resultTag = default)
     {
         return input
             .ToResultIsNotNull(failureMessage: "Input cannot be null.", resultTag)

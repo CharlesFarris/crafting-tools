@@ -12,7 +12,7 @@ public static class RecipeExtensions
     /// Checks if <see cref="Recipe"/> instance is not null and not the <see cref="Recipe.None"/> instance
     /// and wraps the instance in a <see cref="Result{TValue}"/>.
     /// </summary>
-    public static Result<Recipe> ToValidResult(this Recipe recipe, string? resultTag = default)
+    public static Result<Recipe> ToResultIsNotNullOrNone(this Recipe recipe, string? resultTag = default)
     {
         return recipe
             .ToResultIsNotNull(failureMessage: "Recipe cannot be null.", resultTag ?? nameof(recipe))
@@ -27,11 +27,11 @@ public static class RecipeExtensions
         var failures = ImmutableList<Result>.Empty;
 
         var validRecipe = recipe
-            .ToValidResult(nameof(recipe))
+            .ToResultIsNotNullOrNone(nameof(recipe))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validOutput = output
-            .ToValidResult(nameof(output))
+            .ToResultIsNotNullOrNone(nameof(output))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return validRecipe.Output.Item == validOutput.Item && validRecipe.Output.Count == validOutput.Count
@@ -47,11 +47,11 @@ public static class RecipeExtensions
         var failures = ImmutableList<Result>.Empty;
 
         var validRecipe = recipe
-            .ToValidResult(nameof(recipe))
+            .ToResultIsNotNullOrNone(nameof(recipe))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validInput = input
-            .ToValidResult(nameof(input))
+            .ToResultIsNotNullOrNone(nameof(input))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         return Recipe.FromParameters(
@@ -81,7 +81,7 @@ public static class RecipeExtensions
         var failures = ImmutableList<Result>.Empty;
 
         var validRecipe = recipe
-            .ToValidResult(nameof(recipe))
+            .ToResultIsNotNullOrNone(nameof(recipe))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validItem = item
@@ -113,11 +113,11 @@ public static class RecipeExtensions
         var failures = ImmutableList<Result>.Empty;
 
         var validRecipe = recipe
-            .ToValidResult(nameof(recipe))
+            .ToResultIsNotNullOrNone(nameof(recipe))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         var validInput = input
-            .ToValidResult(nameof(input))
+            .ToResultIsNotNullOrNone(nameof(input))
             .UnwrapOrAddToFailuresImmutable(ref failures);
 
         if (!failures.IsEmpty)

@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj"/>
+    <ProjectReference Include="..\Domain\Domain.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SleepingBearSystems.Tools.Persistence" Version="0.2.1.52" />
+    <PackageReference Include="SleepingBearSystems.Tools.Persistence" Version="0.2.1.73"/>
   </ItemGroup>
 
 </Project>

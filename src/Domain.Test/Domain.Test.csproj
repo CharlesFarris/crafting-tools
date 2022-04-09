@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SleepingBearSystems.Tools.Testing" Version="0.2.1.52" />
+    <PackageReference Include="SleepingBearSystems.Tools.Testing" Version="0.2.1.73" />
   </ItemGroup>
 
   <ItemGroup>

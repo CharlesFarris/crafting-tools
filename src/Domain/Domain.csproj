@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.52" />
+    <PackageReference Include="SleepingBearSystems.Tools.Domain" Version="0.2.1.147" />
+    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.147" />
   </ItemGroup>
 
 </Project>

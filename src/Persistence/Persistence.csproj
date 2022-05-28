@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SleepingBearSystems.Tools.Persistence" Version="0.2.1.52" />
+    <PackageReference Include="SleepingBearSystems.Tools.Persistence" Version="0.2.1.147" />
   </ItemGroup>
 
 </Project>

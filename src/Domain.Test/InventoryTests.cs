@@ -3,7 +3,6 @@ using NUnit.Framework;
 using Serilog;
 using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
-using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -19,7 +18,8 @@ internal static class InventoryTests
     public static void FromParameters_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = log.CreateInMemoryLogger(timeStampFormat: string.Empty);
+        var indentationMap = IndentationMap.Create();
 
         // local method for writing an Inventory instance to the logger
         static void LogInventory(ILogger localLogger, Inventory localInventory, string indent = "  ")
@@ -36,7 +36,8 @@ internal static class InventoryTests
         {
             logger.Information(messageTemplate: "use case: null container");
             var result = Inventory.FromParameters(slots: default, resultTag: "null_container");
-            result.LogResult(logger, (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
+            result.LogResult(logger, indentationMap,
+                (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
         }
 
         // create test items
@@ -53,7 +54,8 @@ internal static class InventoryTests
                 .Add(InventorySlot.Empty)
                 .Add(InventorySlot.FromParameters(item2, count: 2).Unwrap());
             var result = Inventory.FromParameters(slots, resultTag: "null_values");
-            result.LogResult(logger, (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
+            result.LogResult(logger, indentationMap,
+                (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
         }
 
         // use case: combine duplicate items
@@ -66,24 +68,25 @@ internal static class InventoryTests
                 .Add(InventorySlot.FromParameters(item2, count: 20).Unwrap())
                 .Add(InventorySlot.FromParameters(item3, count: 3).Unwrap());
             var result = Inventory.FromParameters(slots, resultTag: "duplicate_items");
-            result.LogResult(logger, (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
+            result.LogResult(logger, indentationMap,
+                (localLogger, localInventory) => { LogInventory(localLogger, localInventory); });
         }
 
         CollectionAssert.AreEqual(
             new[]
             {
                 "[INF] use case: null container <s:>",
-                "[INF] null_container: Success <s:>",
+                "[INF] Success (null_container) <s:>",
                 "[INF]   Count: 0 <s:>",
 
                 "[INF] use case: container with null values <s:>",
-                "[INF] null_values: Success <s:>",
+                "[INF] Success (null_values) <s:>",
                 "[INF]   Count: 2 <s:>",
                 "[INF]   item_1 x 1 <s:>",
                 "[INF]   item_2 x 2 <s:>",
 
                 "[INF] use case: combine duplicate items <s:>",
-                "[INF] duplicate_items: Success <s:>",
+                "[INF] Success (duplicate_items) <s:>",
                 "[INF]   Count: 3 <s:>",
                 "[INF]   item_1 x 11 <s:>",
                 "[INF]   item_2 x 22 <s:>",

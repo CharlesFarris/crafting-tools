@@ -2,7 +2,6 @@
 using Serilog;
 using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
-using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -18,7 +17,8 @@ internal static class InventorySlotTests
     public static void FromParameters_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = log.CreateInMemoryLogger(timeStampFormat: string.Empty);
+        var indentationMap = IndentationMap.Create();
 
         // local method for writing an inventory slot to the logger
         static void LogInventorySlot(ILogger localLogger, InventorySlot localSlot)
@@ -30,7 +30,7 @@ internal static class InventorySlotTests
         {
             logger.Information(messageTemplate: "use case: invalid parameters");
             var result = InventorySlot.FromParameters(item: default, count: 0, resultTag: "invalid_slot");
-            result.LogResult(logger, LogInventorySlot);
+            result.LogResult(logger, indentationMap, LogInventorySlot);
         }
 
         // use case: valid parameters
@@ -40,19 +40,20 @@ internal static class InventorySlotTests
                 .FromParameters(new Guid(g: "BCAA7FD8-99A6-4CA9-BD45-53288A96B32B"), name: "item")
                 .Unwrap();
             var result = InventorySlot.FromParameters(item, count: 123, resultTag: "valid_slot");
-            result.LogResult(logger, LogInventorySlot);
+            result.LogResult(logger, indentationMap, LogInventorySlot);
         }
 
         CollectionAssert.AreEqual(
             new[]
             {
                 "[INF] use case: invalid parameters <s:>",
+                "[INF] Failure (invalid_slot) <s:>",
                 "[INF] invalid_slot: Unable to create inventory slot. <s:>",
-                "[INF]   item: Item cannot be null <s:>",
-                "[INF]   count: Count must greater than 0. <s:>",
+                "[INF]     item: Item cannot be null <s:>",
+                "[INF]     count: Count must greater than 0. <s:>",
 
                 "[INF] use case: valid parameters <s:>",
-                "[INF] valid_slot: Success <s:>",
+                "[INF] Success (valid_slot) <s:>",
                 "[INF] item x 123 <s:>"
             },
             log,

@@ -2,7 +2,6 @@
 using SleepingBearSystems.CraftingTools.Common;
 using SleepingBearSystems.Tools.Common;
 using SleepingBearSystems.Tools.Railway;
-using SleepingBearSystems.Tools.Testing;
 
 namespace SleepingBearSystems.CraftingTools.Domain.Test;
 
@@ -47,7 +46,8 @@ internal static class ItemTests
     public static void FromPoco_ValidatesBehavior()
     {
         var log = new List<string>();
-        var logger = InMemoryLogger.Create(log, timeStampFormat: string.Empty);
+        var logger = log.CreateInMemoryLogger(timeStampFormat: string.Empty);
+        var indentationMap = IndentationMap.Create();
 
         // use case: valid poco
         {
@@ -84,17 +84,17 @@ internal static class ItemTests
                 {
                     Id = Guid.Empty
                 }, resultTag: "item");
-            result.LogResult(logger,
-                (localLocal, localItem) => { });
+            result.LogResult(logger, indentationMap, (_, _) => { });
         }
 
         CollectionAssert.AreEqual(
             new[]
             {
                 "[INF] use case: invalid poco <s:>",
+                "[INF] Failure (item) <s:>",
                 "[INF] item: Unable to create item. <s:>",
-                "[INF]   id: Id cannot be empty. <s:>",
-                "[INF]   name: Item name cannot be empty. <s:>"
+                "[INF]     id: Id cannot be empty. <s:>",
+                "[INF]     name: Item name cannot be empty. <s:>"
             },
             log,
             string.Join(Environment.NewLine, log));

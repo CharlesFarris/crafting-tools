@@ -3,15 +3,11 @@
   <PropertyGroup>
     <AssemblyName>SleepingBearSystems.CraftingTools.Domain</AssemblyName>
     <RootNamespace>SleepingBearSystems.CraftingTools.Domain</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.2.1.52" />
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
   </ItemGroup>
 
 </Project>

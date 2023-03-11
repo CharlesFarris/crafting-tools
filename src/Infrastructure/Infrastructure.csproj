@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="22.0.0" />
+  </ItemGroup>
+
 </Project>

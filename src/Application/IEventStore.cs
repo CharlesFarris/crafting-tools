@@ -9,7 +9,10 @@ namespace SleepingBearSystems.CraftingTools.Application;
 [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords")]
 public interface IEventStore
 {
-    Task<Result<Unit>> AppendEvents(string streamName, ImmutableList<IEvent> events, CancellationToken cancellationToken = default);
+    Task<Result<Unit>> AppendEvents(
+        string streamName,
+        ImmutableList<IEvent> events,
+        CancellationToken cancellationToken = default);
 
     Task<Result<ImmutableList<IEvent>>> GetEvents(string streamName, CancellationToken cancellationToken = default);
 

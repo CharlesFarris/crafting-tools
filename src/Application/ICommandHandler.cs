@@ -6,5 +6,5 @@ namespace SleepingBearSystems.CraftingTools.Application;
 
 public interface ICommandHandler<in TCommand> where TCommand : ICommand
 {
-   Task<Result<Unit>> Handle(TCommand command, CancellationToken cancellationToken = default);
+    Task<Result<Unit>> Handle(TCommand command, CancellationToken cancellationToken = default);
 }

@@ -9,7 +9,7 @@ using SleepingBearSystems.Tools.Railway;
 
 namespace SleepingBearSystems.CraftingTools.Infrastructure;
 
-public sealed class EventStore :IEventStore
+public sealed class EventStore : IEventStore
 {
     private readonly EventStoreClient _client;
 
@@ -20,7 +20,10 @@ public sealed class EventStore :IEventStore
         this._client = client ?? throw new ArgumentNullException(nameof(client));
     }
 
-    public async Task<Result<Unit>> AppendEvents(string streamName, ImmutableList<IEvent> events, CancellationToken cancellationToken = default)
+    public async Task<Result<Unit>> AppendEvents(
+        string streamName,
+        ImmutableList<IEvent> events,
+        CancellationToken cancellationToken = default)
     {
         try
         {
@@ -70,6 +73,7 @@ public sealed class EventStore :IEventStore
                     ? events.Add(@event)
                     : throw new InvalidOperationException($"Invalid event type: {eventType.Name}");
             }
+
             return Result<ImmutableList<IEvent>>.Success(events);
         }
         catch (Exception ex)
@@ -85,6 +89,7 @@ public sealed class EventStore :IEventStore
         {
             return;
         }
+
         this._eventTypeMap = this._eventTypeMap.Add(eventType.Name, eventType);
     }
 }

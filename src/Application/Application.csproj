@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.3.0.338" />
+    <PackageReference Include="SleepingBearSystems.Tools.Railway" Version="0.3.0.338"/>
   </ItemGroup>
 
 </Project>

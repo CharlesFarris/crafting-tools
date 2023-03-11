@@ -1,4 +1,4 @@
-namespace Application.Tests;
+namespace SleepingBearSystems.CraftingTools.Application.Tests;
 
 public class Tests
 {

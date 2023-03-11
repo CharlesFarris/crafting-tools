@@ -9,4 +9,3 @@ public sealed record RenameItemCommand(Guid Id, string Name) : ICommand;
 public sealed record ItemCreatedEvent(Guid Id, string Name) : IEvent;
 
 public sealed record ItemRenamedEvent(Guid Id, string Name) : IEvent;
-

@@ -6,6 +6,6 @@ public static class StreamName
 {
     public static string FromEntity<TEntity>(Guid id) where TEntity : IEntity
     {
-        return $"{nameof(TEntity)}-{id}";
+        return $"{typeof(TEntity).Name}-{id}";
     }
 }

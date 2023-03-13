@@ -15,73 +15,61 @@ public sealed class EventStore : IEventStore
 
     private ImmutableDictionary<string, Type> _eventTypeMap = ImmutableDictionary<string, Type>.Empty;
 
-    public EventStore(EventStoreClient client)
+    private EventStore(EventStoreClient client)
     {
         this._client = client ?? throw new ArgumentNullException(nameof(client));
     }
 
-    public async Task<Result<Unit>> AppendEvents(
+    public async Task<Unit> AppendEvents(
         string streamName,
         ImmutableList<IEvent> events,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
-        try
+        var eventData = events.Select(@event =>
         {
-            var eventData = events.Select(@event =>
-            {
-                var json = JsonSerializer.Serialize(@event);
-                var data = Encoding.UTF8.GetBytes(json);
-                return new EventData(
-                    Uuid.NewUuid(),
-                    @event.GetType().Name,
-                    data);
-            });
-            await this._client.AppendToStreamAsync(
-                streamName,
-                StreamRevision.None,
-                eventData,
-                cancellationToken: cancellationToken);
-            return Result<Unit>.Success(Unit.Default);
-        }
-        catch (Exception ex)
-        {
-            return Result<Unit>.Failure(ex.ToResultError("An error occurred appending events."));
-        }
+            var data = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType());
+            return new EventData(
+                Uuid.NewUuid(),
+                @event.GetType().Name,
+                data);
+        });
+        await this._client.AppendToStreamAsync(
+            streamName,
+            StreamState.Any,
+            eventData,
+            cancellationToken: cancellationToken);
+        return Unit.Default;
     }
 
-    public async Task<Result<ImmutableList<IEvent>>> GetEvents(string streamName, CancellationToken cancellationToken)
+    public async Task<ImmutableList<IEvent>> GetEvents(string streamName, CancellationToken cancellationToken)
     {
-        try
+        var readStreamResult = this._client.ReadStreamAsync(
+            Direction.Forwards,
+            streamName,
+            StreamPosition.Start,
+            cancellationToken: cancellationToken);
+        var events = ImmutableList<IEvent>.Empty;
+        await foreach (var resolvedEvent in readStreamResult)
         {
-            var readStreamResult = this._client.ReadStreamAsync(
-                Direction.Forwards,
-                streamName,
-                StreamPosition.Start,
-                cancellationToken: cancellationToken);
-            var events = ImmutableList<IEvent>.Empty;
-            await foreach (var resolvedEvent in readStreamResult)
+            if (!this._eventTypeMap.TryGetValue(resolvedEvent.Event.EventType, out var eventType))
             {
-                var json = Encoding.UTF8.GetString(resolvedEvent.Event.Data.Span);
-
-                if (!this._eventTypeMap.TryGetValue(resolvedEvent.Event.EventType, out var eventType))
-                {
-                    throw new InvalidOperationException($"Unknown event type: {resolvedEvent.Event.EventType}.");
-                }
-
-                var obj = JsonSerializer.Deserialize(json, eventType);
-                events = obj is IEvent @event
-                    ? events.Add(@event)
-                    : throw new InvalidOperationException($"Invalid event type: {eventType.Name}");
+                throw new InvalidOperationException($"Unknown event type: {resolvedEvent.Event.EventType}.");
             }
 
-            return Result<ImmutableList<IEvent>>.Success(events);
+            var json = Encoding.UTF8.GetString(resolvedEvent.Event.Data.Span);
+            var obj = JsonSerializer.Deserialize(json, eventType);
+            events = obj is IEvent @event
+                ? events.Add(@event)
+                : throw new InvalidOperationException($"Invalid event type: {eventType.Name}");
         }
-        catch (Exception ex)
-        {
-            return Result<ImmutableList<IEvent>>.Failure(ex.ToResultError("An error occurred reading events."));
-        }
+
+        return events;
     }
 
+    /// <summary>
+    /// Registers an event type for deserialization.
+    /// </summary>
+    /// <typeparam name="TEvent">The event type.</typeparam>
     public void RegisterEvent<TEvent>() where TEvent : IEvent
     {
         var eventType = typeof(TEvent);
@@ -91,5 +79,25 @@ public sealed class EventStore : IEventStore
         }
 
         this._eventTypeMap = this._eventTypeMap.Add(eventType.Name, eventType);
+    }
+
+    /// <summary>
+    /// Factory method for creating a <see cref="EventStore"/> instance from the
+    /// gPRC connection string.
+    /// </summary>
+    /// <param name="connectionString">The connection string.</param>
+    /// <returns>A result containing the event store instance.</returns>
+    public static Result<EventStore> FromConnectionString(string connectionString)
+    {
+        var errors = ImmutableList<Result>.Empty;
+
+        var validConnectionString = connectionString
+            .ToResultIsNotNullOrEmpty(nameof(connectionString))
+            .UnwrapOrAddToFailuresImmutable(ref errors);
+
+        return errors.IsEmpty
+            ? Result<EventStore>.Success(
+                new EventStore(new EventStoreClient(EventStoreClientSettings.Create(validConnectionString))))
+            : Result<EventStore>.Failure(errors.ToResultError("Unable to create EventStore."));
     }
 }
